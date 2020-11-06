@@ -2,7 +2,7 @@ async function readTextFile(file): Promise<{}>
 {
     return new Promise(() => {
         var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
+    rawFile.open("GET", file, true);
     rawFile.onreadystatechange = function ()
     {
         if(rawFile.readyState === 4)
