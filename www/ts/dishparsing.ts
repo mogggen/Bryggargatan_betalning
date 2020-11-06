@@ -1,6 +1,7 @@
-function readTextFile(file)
+async function readTextFile(file): Promise<{}>
 {
-    var rawFile = new XMLHttpRequest();
+    return new Promise(() => {
+        var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
     rawFile.onreadystatechange = function ()
     {
@@ -14,6 +15,7 @@ function readTextFile(file)
         }
     }
     rawFile.send(null);
+    });
 }
 
 //readTextFile("../dishes.json");
