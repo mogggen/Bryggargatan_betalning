@@ -7,9 +7,9 @@
             "type":             "soppa",
             "description":      "Serveras med grillat surdegsbröd.",
 
-            "is_milk_free":     "no",
-            "is_gluten_free":   "no",
-            "is_egg_free":      "no",
+            "is_milk_free":     "nej",
+            "is_gluten_free":   "nej",
+            "is_egg_free":      "nej",
             "contains_soy":     false
         },
         {
@@ -18,9 +18,9 @@
             "type":             "sallad",
             "description":      "Grillad kycklinglårfilé, parmesan, ceasardressing och surdegskrutonger.",
 
-            "is_milk_free":     "possible",
-            "is_gluten_free":   "possible",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "möjligtvis",
+            "is_gluten_free":   "möjligtvis",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     false
         },
         {
@@ -29,9 +29,9 @@
             "type":             "sallad",
             "description":      "Chevreost, rödbetor, rostade solrosfrön och surdegskrutonger.",
 
-            "is_milk_free":     "possible",
-            "is_gluten_free":   "possible",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "möjligtvis",
+            "is_gluten_free":   "möjligtvis",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     false
         },
         {
@@ -40,9 +40,9 @@
             "type":             "sallad",
             "description":      "Tonfisktataki, rostad sötpotatis, stekt ostronskivling och wasabimajonnäs.",
 
-            "is_milk_free":     "yes",
-            "is_gluten_free":   "yes",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "ja",
+            "is_gluten_free":   "ja",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     true
         },
         {
@@ -51,9 +51,9 @@
             "type":             "sandwich",
             "description":      "Grillat surdegsbröd, handskalade räkor, sallad, krämigt ägg, majonnäs och citron.",
 
-            "is_milk_free":     "possible",
-            "is_gluten_free":   "possible",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "möjligtvis",
+            "is_gluten_free":   "möjligtvis",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     false 
         },
         {
@@ -62,9 +62,9 @@
             "type":             "råbiff",
             "description":      "Smaksatt med kapris, senap, lök, äggula och gragonkräm. Serveras med pommes frites.",
 
-            "is_milk_free":     "yes",
-            "is_gluten_free":   "yes",
-            "is_egg_free":      "no",
+            "is_milk_free":     "ja",
+            "is_gluten_free":   "ja",
+            "is_egg_free":      "nej",
             "contains_soy":     false 
         },
         {
@@ -73,9 +73,9 @@
             "type":             "teriyaki",
             "description":      "Grillad kycklinglårfilé, ugnsbakad rotselleri, rotselleripuré och teriyakisås.",
 
-            "is_milk_free":     "possible",
-            "is_gluten_free":   "yes",
-            "is_egg_free":      "yes",
+            "is_milk_free":     "möjligtvis",
+            "is_gluten_free":   "ja",
+            "is_egg_free":      "ja",
             "contains_soy":     true 
         },
         {
@@ -84,9 +84,9 @@
             "type":             "teriyaki",
             "description":      "Ugnsbakad rotselleri, rotselleripuré och teriyakisås.",
 
-            "is_milk_free":     "yes",
-            "is_gluten_free":   "possible",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "ja",
+            "is_gluten_free":   "möjligtvis",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     false
         },
         {
@@ -95,9 +95,9 @@
             "type":             "fisk",
             "description":      "Serveras med lax, handskalade räkor, blåmusslor, rotsaker, grillat surdegbröd och aioli.",
 
-            "is_milk_free":     "yes",
-            "is_gluten_free":   "possible",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "ja",
+            "is_gluten_free":   "möjligtvis",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     false 
         },
         {
@@ -106,20 +106,20 @@
             "type":             "fisk",
             "description":      "Serveras med hemlagat potatismos och tartarsås.",
 
-            "is_milk_free":     "no",
-            "is_gluten_free":   "no",
-            "is_egg_free":      "no",
+            "is_milk_free":     "nej",
+            "is_gluten_free":   "nej",
+            "is_egg_free":      "nej",
             "contains_soy":     false 
         },
         {
             "name":             "Moules marinère",
             "price":            159,
-            "type":             "",
+            "type":             "clams",
             "description":      "Grädd- och vinkokta blåmusslor. Serveras med pommes frites, bröd och aioli.",
 
-            "is_milk_free":     "possible",
-            "is_gluten_free":   "possible",
-            "is_egg_free":      "possible",
+            "is_milk_free":     "möjligtvis",
+            "is_gluten_free":   "möjligtvis",
+            "is_egg_free":      "möjligtvis",
             "contains_soy":     false 
         },
         {
@@ -128,19 +128,19 @@
             "type":             "köttgryta",
             "description":      "Klassisk, fransk köttgryta. Serveras med hemlagat potatismos.",
 
-            "is_milk_free":     "no",
-            "is_gluten_free":   "yes",
-            "is_egg_free":      "yes",
+            "is_milk_free":     "nej",
+            "is_gluten_free":   "ja",
+            "is_egg_free":      "ja",
             "contains_soy":     false 
         },
         {
             "name":             "Confiterat",
             "price":            149,
-            "type":             "",
+            "type":             "confiterat",
             "description":      "Serveras med surkål och potatismos.",
 
-            "is_milk_free":     "no",
-            "is_gluten_free":   "possible",
+            "is_milk_free":     "nej",
+            "is_gluten_free":   "möjligtvis",
             "is_egg_free":      "Serveras med surkål och potatismos.",
             "contains_soy":     false
         }
