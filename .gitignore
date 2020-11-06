@@ -1,3 +1,7 @@
 .proj.vim
 www/js/*
 www/.tscache
+www/node_modules
+
+www/package-lock.json
+www/package.json
