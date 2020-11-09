@@ -5,3 +5,7 @@ www/node_modules
 
 www/package-lock.json
 www/package.json
+
+[Pp]ayment[Ss]erver/.vs
+[Pp]ayment[Ss]erver/bin
+[Pp]ayment[Ss]erver/obj
