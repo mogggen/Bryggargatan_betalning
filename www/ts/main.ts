@@ -1,3 +1,5 @@
+var menuItems:Array<MenuItem> = new Array();
+
 function foo()
 {
     console.log("Bar");

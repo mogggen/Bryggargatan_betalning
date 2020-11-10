@@ -180,7 +180,7 @@
             "price":    49
         },
         {
-            "name":     "Alkoholfritt vim",
+            "name":     "Alkoholfritt vin",
             "price":    79
         },
         {
@@ -219,7 +219,7 @@
             "price":    35
         }
     ],
-    "deserts": 
+    "desserts": 
     [
         {
             "name":     "Chokladterrinne",
