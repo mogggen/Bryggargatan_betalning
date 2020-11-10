@@ -10,15 +10,15 @@ namespace PaymentServer
         static void Main(string[] args)
         {
             bool on = true;
+            Queue<Socket> MySocketQueue = new Queue<Socket>();
             while (on)
             {
                 //  1. Ta emot betalningsförfrågningar från klienter
                 //      lagra betalningsförfrågningarna
-                Queue<Socket> MySocketQueue = new Queue<Socket>();
-
+                
                 //adds a new socket if neccessery
                 Socket NewSocket;
-                if (MySocketQueue.Last().Connected)
+                if (MySocketQueue.Count > 0 && MySocketQueue.Last().Connected)
                 {
                     NewSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                     MySocketQueue.Enqueue(NewSocket);
@@ -30,7 +30,14 @@ namespace PaymentServer
                 //  5. Väntar på en callback/bekräftelse från Swish.
                 //  6. Skicka bekräftelse till webapp och köket.
 
-                MySocketQueue.Dequeue();
+                if (!MySocketQueue.First().Connected)
+                {
+                    //Close Socket
+                    MySocketQueue.First().Shutdown(SocketShutdown.Both);
+
+                    //deQueue <socket>
+                    MySocketQueue.Dequeue();
+                }
             }
         }
     }
