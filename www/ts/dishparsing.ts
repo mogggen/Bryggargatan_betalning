@@ -46,17 +46,13 @@ function parseDishesFile(allText: string){
         parsedText.desserts[i].name,
         parsedText.desserts[i].price))
     }
-    console.log(menuItems.length);
-    console.log("Completed parsing dishes");
     printParsedDishes();
 }
 
 function printParsedDishes(){
     var allText = "";
     for(var i = 0; i < menuItems.length; i++){
-        console.log(i);
         allText += menuItems[i].menuToString() + "<br>";
     }
     document.getElementById("this_is_a_div").innerHTML = allText;
-    console.log("Printed out menuItems");
 }
