@@ -34,7 +34,6 @@ class MenuItem{
 
 class Dish extends MenuItem{
     
-    
     type: string;
     description: string;
     is_milk_free: string;
@@ -70,17 +69,69 @@ class Dish extends MenuItem{
     
     menuToHTML():string{
         var menuItemString;
-        switch(this.milkFreeFO){
-                
-        }
-        menuItemString = "<div class=\"menuItem dish\">" + this.name + " " + 
+        menuItemString = "<div class=\"menuItem dish\">" + this.name.toUpperCase() + " " + "‧" + " " +
             this.price.toString() + "<br>" + 
             this.description +" " + 
-            this.milkFreeFO + " " + 
-            this.glutenFreeFO + " " + 
-            this.eggFreeFO +" " + 
-            this.contains_soy + "</div>";
+            '<p id="FO">' + this.getMilkFreeHTML() + " " +
+            this.getGlutenFreeHTML() + " " +
+            this.getEggFreeHTML() + " " +
+            this.getSoyHTML() + '</p>' + "</div>";
         return menuItemString;
+    }
+    
+    getMilkFreeHTML():string{
+        switch(this.milkFreeFO){
+            case FoodOption.Yes:{
+                return "MF";
+            }
+            case FoodOption.No:{
+                return "";
+            }
+            case FoodOption.Possible:{
+                return "Går att få MF";
+            }
+            default:{
+                return "";
+            }
+        }
+    }
+    getGlutenFreeHTML():string{
+        switch(this.glutenFreeFO){
+            case FoodOption.Yes:{
+                return "GF";
+            }
+            case FoodOption.No:{
+                return "";
+            }
+            case FoodOption.Possible:{
+                return "Går att få GF";
+            }
+            default:{
+                return "";
+            }
+        }
+    }
+    getEggFreeHTML():string{
+        switch(this.eggFreeFO){
+            case FoodOption.Yes:{
+                return "ÄF";
+            }
+            case FoodOption.No:{
+                return "";
+            }
+            case FoodOption.Possible:{
+                return "Går att få ÄF";
+            }
+            default:{
+                return "";
+            }
+        }
+    }
+    getSoyHTML():string{
+        if(this.contains_soy){
+            return "(innehåller soja)"
+        }
+        return "";
     }
     
     checkMilkFO(is_milk_free: string):FoodOption{
