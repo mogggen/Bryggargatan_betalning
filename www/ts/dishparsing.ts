@@ -1,4 +1,4 @@
-async function readTextFile(file): Promise<{}>
+async function readTextFile(file: string): Promise<{}>
 {
     return new Promise(() => {
         var rawFile = new XMLHttpRequest();

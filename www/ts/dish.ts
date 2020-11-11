@@ -79,7 +79,10 @@ class Dish extends MenuItem{
             this.milkFreeFO + " " + 
             this.glutenFreeFO + " " + 
             this.eggFreeFO +" " + 
-            this.contains_soy + "</div>";
+            this.contains_soy;
+
+        menuItemString += create_add_button_html(this.name, this.price);
+        menuItemString += "</div>";
         return menuItemString;
     }
     
