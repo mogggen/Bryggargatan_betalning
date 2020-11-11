@@ -24,7 +24,9 @@ class MenuItem{
     menuToHTML():string{
         var menuItemString;
         menuItemString = "<div class=\"menuItem\">" + this.name + " " + 
-            this.price.toString() + "</div>";
+            this.price.toString();
+        menuItemString += create_add_button_html(this.name, this.price);
+        menuItemString += "</div>";
         return menuItemString;
     }
     
@@ -77,7 +79,7 @@ class Dish extends MenuItem{
             this.getEggFreeHTML() + " " +
             this.getSoyHTML() + '</p>';
 
-        menuItemString += create_add_button_html(this.name, this.price);
+        menuItemString += create_add_dish_button_html(this.name, this.price);
         menuItemString += "</div>";
         return menuItemString;
     }
