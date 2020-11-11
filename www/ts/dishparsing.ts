@@ -52,7 +52,7 @@ function parseDishesFile(allText: string){
 function printParsedDishes(){
     var allText = "";
     for(var i = 0; i < menuItems.length; i++){
-        allText += menuItems[i].menuToString() + "<br>";
+        allText += menuItems[i].menuToHTML();
     }
-    document.getElementById("this_is_a_div").innerHTML = allText;
+    document.getElementById("menuDiv").innerHTML = allText;
 }

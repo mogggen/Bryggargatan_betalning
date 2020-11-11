@@ -20,7 +20,17 @@ class MenuItem{
         menuItemString = this.name + " " + this.price.toString();
         return menuItemString;
     }
+    
+    menuToHTML():string{
+        var menuItemString;
+        menuItemString = "<div class=\"menuItem\">" + this.name + " " + 
+            this.price.toString() + "</div>";
+        return menuItemString;
+    }
+    
 }
+
+
 
 class Dish extends MenuItem{
     
@@ -55,6 +65,21 @@ class Dish extends MenuItem{
             this.glutenFreeFO + " " + 
             this.eggFreeFO +" " + 
             this.contains_soy;
+        return menuItemString;
+    }
+    
+    menuToHTML():string{
+        var menuItemString;
+        switch(this.milkFreeFO){
+                
+        }
+        menuItemString = "<div class=\"menuItem dish\">" + this.name + " " + 
+            this.price.toString() + "<br>" + 
+            this.description +" " + 
+            this.milkFreeFO + " " + 
+            this.glutenFreeFO + " " + 
+            this.eggFreeFO +" " + 
+            this.contains_soy + "</div>";
         return menuItemString;
     }
     
