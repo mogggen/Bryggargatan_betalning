@@ -18,9 +18,9 @@
             "type":             "sallad",
             "description":      "Grillad kycklinglårfilé, parmesan, ceasardressing och surdegskrutonger.",
 
-            "is_milk_free":     "möjligtvis",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "möjligtvis",
+            "is_milk_free":     "mojligtvis",
+            "is_gluten_free":   "mojligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     false
         },
         {
@@ -29,9 +29,9 @@
             "type":             "sallad",
             "description":      "Chevreost, rödbetor, rostade solrosfrön och surdegskrutonger.",
 
-            "is_milk_free":     "möjligtvis",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "möjligtvis",
+            "is_milk_free":     "mojligtvis",
+            "is_gluten_free":   "mojligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     false
         },
         {
@@ -42,7 +42,7 @@
 
             "is_milk_free":     "ja",
             "is_gluten_free":   "ja",
-            "is_egg_free":      "möjligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     true
         },
         {
@@ -51,9 +51,9 @@
             "type":             "sandwich",
             "description":      "Grillat surdegsbröd, handskalade räkor, sallad, krämigt ägg, majonnäs och citron.",
 
-            "is_milk_free":     "möjligtvis",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "möjligtvis",
+            "is_milk_free":     "mojligtvis",
+            "is_gluten_free":   "mojligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     false 
         },
         {
@@ -73,7 +73,7 @@
             "type":             "teriyaki",
             "description":      "Grillad kycklinglårfilé, ugnsbakad rotselleri, rotselleripuré och teriyakisås.",
 
-            "is_milk_free":     "möjligtvis",
+            "is_milk_free":     "mojligtvis",
             "is_gluten_free":   "ja",
             "is_egg_free":      "ja",
             "contains_soy":     true 
@@ -85,8 +85,8 @@
             "description":      "Ugnsbakad rotselleri, rotselleripuré och teriyakisås.",
 
             "is_milk_free":     "ja",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "möjligtvis",
+            "is_gluten_free":   "mojligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     false
         },
         {
@@ -96,8 +96,8 @@
             "description":      "Serveras med lax, handskalade räkor, blåmusslor, rotsaker, grillat surdegbröd och aioli.",
 
             "is_milk_free":     "ja",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "möjligtvis",
+            "is_gluten_free":   "mojligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     false 
         },
         {
@@ -117,9 +117,9 @@
             "type":             "clams",
             "description":      "Grädd- och vinkokta blåmusslor. Serveras med pommes frites, bröd och aioli.",
 
-            "is_milk_free":     "möjligtvis",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "möjligtvis",
+            "is_milk_free":     "mojligtvis",
+            "is_gluten_free":   "mojligtvis",
+            "is_egg_free":      "mojligtvis",
             "contains_soy":     false 
         },
         {
@@ -140,8 +140,8 @@
             "description":      "Serveras med surkål och potatismos.",
 
             "is_milk_free":     "nej",
-            "is_gluten_free":   "möjligtvis",
-            "is_egg_free":      "Serveras med surkål och potatismos.",
+            "is_gluten_free":   "ja",
+            "is_egg_free":      "ja",
             "contains_soy":     false
         }
     ],
@@ -180,7 +180,7 @@
             "price":    49
         },
         {
-            "name":     "Alkoholfritt vim",
+            "name":     "Alkoholfritt vin",
             "price":    79
         },
         {
@@ -219,7 +219,7 @@
             "price":    35
         }
     ],
-    "deserts": 
+    "desserts": 
     [
         {
             "name":     "Chokladterrinne",
