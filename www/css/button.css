@@ -3,8 +3,9 @@
     width: 80px;
     background-color: #e4e8bd;
     color: WHITE;
-    border-radius: 50;
+    border-radius: 50px;
     text-align: center;
     font-weight: bold;
     padding: 0.03%;
+    margin: auto;
 }

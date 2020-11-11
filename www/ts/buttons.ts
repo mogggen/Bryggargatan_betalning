@@ -7,8 +7,7 @@ function create_add_button_html(dish_name :string, price: number): string
 
 function add_button_callback(dish_name :string, price: string)
 {
-    let p: number = +price; // converts string to number
-    console.log("added " + dish_name + " " + p.toString());
+    console.log("added " + dish_name + " " + price.toString());
     selectedItems.push(new SelectedItem( dish_name, +price, false, false, false ));
     console.log(selectedItems);
 }
