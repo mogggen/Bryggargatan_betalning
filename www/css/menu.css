@@ -1,9 +1,24 @@
+body
+{
+    background-color: ghostwhite;
+}
+
 .menuItem
 {
-    background-color: aquamarine;
+    margin: auto;
+    margin-bottom: 10px;
+    text-align: center;
+    max-width: 35%;
+    font-family: cursive;
 }
 
  .dish
 {
-    color: BLUE;
+    color: black;
+}
+
+#FO
+{
+    color: olive;
+    margin: 0px;
 }
