@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PaymentServer": {
+      "commandName": "Project",
+      "commandLineArgs": "http://localhost:9002/"
+    }
+  }
+}

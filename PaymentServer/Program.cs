@@ -1,41 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.IO;
+using System;
 using System.Net;
-using System.Net.Http;
+using System.Linq;
+using System.Text;
 
 namespace PaymentServer
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] prefixes)
         {
             if (!HttpListener.IsSupported)
             {
-                Console.WriteLine("HttpListener not supported for current OS");
+                Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
                 return;
             }
-            bool on = false;
-            HttpListener httpListener = new HttpListener();
-            httpListener.Start();
+            // URI prefixes are required,
+            // for example "http://contoso.com:8080/index/".
+            if (prefixes == null || prefixes.Length == 0)
+                throw new ArgumentException("prefixes");
+
+            // Create a listener.
+            HttpListener listener = new HttpListener();
+            // Add the prefixes.
+            foreach (string s in prefixes)
+            {
+                listener.Prefixes.Add(s);
+            }
+            listener.Start();
             Console.WriteLine("Listening...");
-            
-            HttpListenerContext context = httpListener.GetContext(); // blocking thread
-
+            // Note: The GetContext method blocks while waiting for a request.
+            HttpListenerContext context = listener.GetContext();
             HttpListenerRequest request = context.Request;
+            // Obtain a response object.
             HttpListenerResponse response = context.Response;
+            // Construct a response.
 
-            string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-            
-            response.ContentLength64 = buffer.Length;
-            System.IO.Stream output = response.OutputStream;
-            output.Write(buffer, 0, buffer.Length);
-            
-            output.Close();
-            httpListener.Stop();
+            Stream input = request.InputStream;
+            byte[] buf = new byte[512];
+            int count = input.Read(buf, 0, buf.Length);
+
+
+            Console.WriteLine(Encoding.Default.GetString(buf));
+
+            Stream output = response.OutputStream;
+            output.Write(Encoding.Default.GetBytes("HI!"));
+            output.Flush();
+            response.Close();
+
+            // You must close the output stream.
+            listener.Stop();
             //Queue<HttpListener> list = new Queue<HttpListener>();
-            while (on)
+            while (false)
             {
                 //  1. Ta emot betalningsförfrågningar från klienter
                 //      lagra betalningsförfrågningarna

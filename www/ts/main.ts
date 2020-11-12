@@ -5,5 +5,5 @@ function onStartUp()
 {
     console.log("Bar");
     readTextFile("dishes.json");
-    //SendToServer("Hello there!");
+    SendToServer("Hello there!");
 }
