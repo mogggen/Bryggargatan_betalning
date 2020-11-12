@@ -35,7 +35,7 @@ namespace PaymentServer
             // Obtain a response object.
             HttpListenerResponse response = context.Response;
             // Construct a response.
-
+            response.AppendHeader("Access-Control-Allow-Origin", "*");
             Stream input = request.InputStream;
             byte[] buf = new byte[512];
             int count = input.Read(buf, 0, buf.Length);
@@ -44,8 +44,9 @@ namespace PaymentServer
             Console.WriteLine(Encoding.Default.GetString(buf));
 
             Stream output = response.OutputStream;
-            output.Write(Encoding.Default.GetBytes("HI!"));
+            output.Write(Encoding.Default.GetBytes("<msg>Hello</msg>"));
             output.Flush();
+ 
             response.Close();
 
             // You must close the output stream.
