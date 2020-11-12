@@ -73,17 +73,83 @@ class Dish extends MenuItem{
         var menuItemString: string;
         menuItemString = "<div class=\"menuItem dish\">" + this.name.toUpperCase() + " " + "‧" + " " +
             this.price.toString() + "<br>" + 
-            this.description +" " + 
-            '<p id="FO">' + this.getMilkFreeHTML() + " " +
-            this.getGlutenFreeHTML() + " " +
-            this.getEggFreeHTML() + " " +
-            this.getSoyHTML() + '</p>';
+            "<p id=desc>" + this.description + "</p>" +
+            this.getFoodOptionsHTML();
 
         menuItemString += create_add_dish_button_html(this.name, this.price);
         menuItemString += "</div>";
         return menuItemString;
     }
     
+    getFoodOptionsHTML():string{
+        
+        //Temporary string storage variable
+        var FOString: string;
+        
+        //Checks if all FO are no, in that case returns an empty string since no further checking is necessary
+        if(this.milkFreeFO === FoodOption.No && this.glutenFreeFO === FoodOption.No && this.eggFreeFO === FoodOption.No && this.contains_soy === false){
+            return "";
+        }
+        
+        //Set FOString to start of paragraph
+        FOString = '<p id="FO">(';
+        
+        
+        //Check which FO are Yes
+        if(this.milkFreeFO === FoodOption.Yes){
+            FOString += "MF";
+        }
+        if(this.glutenFreeFO === FoodOption.Yes){
+            if(this.milkFreeFO === FoodOption.Yes){
+                FOString += " ‧ ";
+            }
+            FOString += "GF";
+            if(this.contains_soy === true){
+                FOString += " " + "(innehåller soja)";
+            }
+        }
+        if(this.eggFreeFO === FoodOption.Yes){
+            if(this.milkFreeFO === FoodOption.Yes || this.glutenFreeFO === FoodOption.Yes){
+                FOString += " ‧ ";
+            }
+            FOString += "ÄF";
+        }
+        
+        
+        //If no FO are Possible, bails out of the method and returns a finished string
+        if(this.milkFreeFO !== FoodOption.Possible && this.glutenFreeFO !== FoodOption.Possible && this.eggFreeFO !== FoodOption.Possible && this.contains_soy === false){
+            FOString += ")</p>";
+            return FOString;
+        }
+        
+        
+        //Check which FO are Possible
+        if(this.milkFreeFO === FoodOption.Yes || this.glutenFreeFO === FoodOption.Yes || this.eggFreeFO === FoodOption.Yes || this.contains_soy === true){
+            FOString += ". ";
+        }
+        FOString += "Går att få ";
+        if(this.milkFreeFO === FoodOption.Possible){
+            FOString += "MF";
+        }
+        if(this.glutenFreeFO === FoodOption.Possible){
+            if(this.milkFreeFO === FoodOption.Possible){
+                FOString += ", ";
+            }
+            FOString += "GF";
+        }
+        if(this.eggFreeFO === FoodOption.Possible){
+            if(this.milkFreeFO === FoodOption.Possible || this.glutenFreeFO === FoodOption.Possible){
+                FOString += ", ";
+            }
+            FOString += "ÄF";
+        }
+        
+        //Finishes the string with html p tag and returns it
+        FOString += ")</p>";
+        return FOString;
+    }
+    
+    //Obsolete
     getMilkFreeHTML():string{
         switch(this.milkFreeFO){
             case FoodOption.Yes:{
@@ -100,6 +166,7 @@ class Dish extends MenuItem{
             }
         }
     }
+    //Obsolete
     getGlutenFreeHTML():string{
         switch(this.glutenFreeFO){
             case FoodOption.Yes:{
@@ -116,6 +183,7 @@ class Dish extends MenuItem{
             }
         }
     }
+    //Obsolete
     getEggFreeHTML():string{
         switch(this.eggFreeFO){
             case FoodOption.Yes:{
@@ -132,9 +200,10 @@ class Dish extends MenuItem{
             }
         }
     }
+    //Obsolete
     getSoyHTML():string{
         if(this.contains_soy){
-            return "(innehåller soja)"
+            return "(innehåller soja)";
         }
         return "";
     }
