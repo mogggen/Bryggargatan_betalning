@@ -123,7 +123,7 @@
             "contains_soy":     false 
         },
         {
-            "name":             "Boeuf bourguingnon",
+            "name":             "Boeuf bourguignon",
             "price":            169,
             "type":             "köttgryta",
             "description":      "Klassisk, fransk köttgryta. Serveras med hemlagat potatismos.",

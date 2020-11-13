@@ -3,13 +3,46 @@ body
     background-color: ghostwhite;
 }
 
+#menuHead
+{
+    margin: auto;
+    max-width: 45%;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    margin-top: 50px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    
+    font-family: cursive;
+}
+
+.menuHeadP
+{
+    margin: auto;
+}
+
+#headerP
+{
+    font-size: 32px;
+    font-weight: lighter;
+}
+#header2P
+{
+    font-family: monospace;
+    font-size: 25px;
+}
+#header3P
+{
+    font-size: 18px;
+}
+
 .menuItem
 {
     margin: auto;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-align: center;
     max-width: 35%;
-    font-family: cursive;
+    font-family: serif;
 }
 
  .dish
@@ -17,8 +50,16 @@ body
     color: black;
 }
 
+#desc
+{
+    margin: 0px;
+    font-family: fantasy;
+    font-size: 18px;
+}
+
 #FO
 {
     color: olive;
     margin: 0px;
 }
+

@@ -2,16 +2,22 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Hello World!</title>
+        <title>Bryggargatan Beställ</title>
         <meta charset="UTF-8">
         <script src="js/main.js"></script>
         <link rel="stylesheet" href="css/menu.css">
         <link rel="stylesheet" href="css/button.css">
     </head>
     <body onload="onStartUp();">
-        <div class="button" onclick="send_order_to_server();">TEMPORARY SEND ORDER BUTTON</div>
+        <div id="menuHead">
+            <p class="menuHeadP" id="headerP">LUNCHMENY <br></p>
+            <p class="menuHeadP" id="header2P">tisdag - fredag <br></p>
+            <p class="menuHeadP" id="header3P">SERVERAS 11.30 - 13.30</p>
+        </div>
         <div id="menuDiv">
             
         </div>
+        
+        <div class="button" onclick="send_order_to_server();">TEMPORARY SEND ORDER BUTTON</div>
     </body>
 </html>
