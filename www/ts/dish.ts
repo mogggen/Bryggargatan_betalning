@@ -71,8 +71,9 @@ class Dish extends MenuItem{
     
     menuToHTML():string{
         var menuItemString: string;
-        menuItemString = "<div class=\"menuItem dish\">" + this.name.toUpperCase() + " " + "‧" + " " +
-            this.price.toString() + "<br>" + 
+        menuItemString = "<div class=\"menuItem dish\">" + 
+            "<p id=dishTitle>" + this.name.toUpperCase() + " " + "‧" + " " +
+            this.price.toString() + "</p>" + 
             "<p id=desc>" + this.description + "</p>" +
             this.getFoodOptionsHTML();
 

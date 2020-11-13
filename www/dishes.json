@@ -114,7 +114,7 @@
         {
             "name":             "Moules marinère",
             "price":            159,
-            "type":             "clams",
+            "type":             "skaldjur",
             "description":      "Grädd- och vinkokta blåmusslor. Serveras med pommes frites, bröd och aioli.",
 
             "is_milk_free":     "mojligtvis",
