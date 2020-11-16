@@ -1,57 +1,108 @@
 ﻿using System.IO;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace PaymentServer
 {
-    class Program
+    
+
+    class HTTPClient
     {
-        static void Main(string[] prefixes)
+        public byte[] buf { get; set; }
+
+        // Create a listener.
+        HttpListenerContext context;
+        HttpListenerRequest request;
+        HttpListenerResponse response;
+
+        public HTTPClient(HttpListener listener, string[] prefixes)
         {
             if (!HttpListener.IsSupported)
             {
                 Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
                 return;
             }
-            // URI prefixes are required,
-            // for example "http://contoso.com:8080/index/".
             if (prefixes == null || prefixes.Length == 0)
-                throw new ArgumentException("prefixes");
-
-            // Create a listener.
-            HttpListener listener = new HttpListener();
-            // Add the prefixes.
-            foreach (string s in prefixes)
+                throw new ArgumentException("ArgumentError: No prefixes given as an argument in Main().");
+            else
             {
-                listener.Prefixes.Add(s);
+                foreach (string s in prefixes)
+                    listener.Prefixes.Add(s);
+
+                listener.Start();
+                Console.WriteLine("Listening...");
+                prefixes = null;
             }
-            listener.Start();
-            Console.WriteLine("Listening...");
+
+            GetContext(listener);
+            GetRequest();
+            GetResponse();
+            Recive();
+            Send("Muffins");
+        }
+
+        public void GetContext(HttpListener listener)
+        {
+            context = listener.GetContext();
+        }
+        public void GetRequest()
+        {
             // Note: The GetContext method blocks while waiting for a request.
-            HttpListenerContext context = listener.GetContext();
-            HttpListenerRequest request = context.Request;
-            // Obtain a response object.
-            HttpListenerResponse response = context.Response;
-            // Construct a response.
+            request = context.Request;
+        }
+        public void GetResponse()
+        {
+            response = context.Response;
+        }
+
+        public int Recive()
+        {
             response.AppendHeader("Access-Control-Allow-Origin", "*");
             Stream input = request.InputStream;
-            byte[] buf = new byte[512];
+
+            buf = new byte[1024];
             int count = input.Read(buf, 0, buf.Length);
+            input.Dispose();
+            return count;
+        }
 
-
-            Console.WriteLine(Encoding.Default.GetString(buf));
-
+        public void Send(string val)
+        {
+            byte[] send = Encoding.UTF8.GetBytes(val);
             Stream output = response.OutputStream;
-            output.Write(Encoding.Default.GetBytes("<msg>Hello</msg>"));
-            output.Flush();
- 
-            response.Close();
+            output.Write(Encoding.UTF8.GetBytes(val));
+            output.Dispose();
 
-            // You must close the output stream.
-            listener.Stop();
-            //Queue<HttpListener> list = new Queue<HttpListener>();
+            //send
+            response.Close();
+        }
+    };
+
+    class Program
+    {
+        static void Main(string[] prefixes)
+        {
+            HttpListener listener = new HttpListener();
+
+            if (true)
+            {
+                HTTPClient temp = new HTTPClient(listener, prefixes);
+
+                Console.WriteLine(Encoding.UTF8.GetString(temp.buf));
+
+            }
+            Queue<HTTPClient> list = new Queue<HTTPClient>();
+            while (true)
+            {
+                list.Enqueue(new HTTPClient(listener, prefixes));
+                Thread.Sleep(1000);
+                list.Dequeue();
+            }
+
             while (false)
             {
                 //  1. Ta emot betalningsförfrågningar från klienter
@@ -62,6 +113,8 @@ namespace PaymentServer
                 //  5. Väntar på en callback/bekräftelse från Swish.
                 //  6. Skicka bekräftelse till webapp och köket.
             }
+
+            list.Dequeue();
         }
     }
 }
