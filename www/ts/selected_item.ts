@@ -16,3 +16,21 @@ class SelectedItem
         this.gluten_free = gluten_free;
     }
 }
+
+function update_order_summary()
+{
+    let total_price :number = 0;
+    let summary_html :string = "";
+
+    selectedItems.forEach((it) => 
+    {
+        summary_html += '<div class="summaryElement"><p class="summaryElementName">' + it.name + 
+                        '</p><p class="summaryElementPrice">' + it.price.toString() + '</p><br></div>';
+
+        total_price += it.price;
+    });
+
+    summary_html += '<div class="summaryElement" id="orderSumElement"><p class="summaryElementName" id="orderSum">Summa:</p><p class="summaryElementPrice" id="orderPrice">' + total_price + '</p></div>';
+
+    document.getElementById("orderSummary").innerHTML = summary_html;
+}

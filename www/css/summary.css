@@ -1,0 +1,42 @@
+#orderSummary
+{
+    margin: auto;
+    height: auto;
+}
+
+.summaryElement
+{
+    margin: auto;
+    width: 60%;
+    border-bottom: 1px solid gray;
+    height: 35px;
+    margin-bottom: -10px;
+}
+
+.summaryElementName
+{
+    position: absolute;
+    left: 21%;
+}
+
+.summaryElementPrice
+{
+    position: absolute;
+    right: 21%;
+}
+
+#orderSumElement
+{
+    margin-bottom: 0px;
+    border-bottom: 2px solid gray;
+}
+
+#orderSum
+{
+    font-weight: bold;
+}
+
+#orderPrice
+{
+    font-weight: bold;
+}
