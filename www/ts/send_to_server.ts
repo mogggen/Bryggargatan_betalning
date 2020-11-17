@@ -11,7 +11,27 @@ function SendToServer(msg: string)
     http.open("POST", url);
     http.send(msg);
     http.onreadystatechange = () =>  {
-        console.log("response: " + http.response);
+        if(http.readyState === 4)
+        {
+            if(http.status === 200 || http.status == 0)
+            {
+                console.log("response: " + http.response);
+                const http2 = new XMLHttpRequest();
+                http2.open("POST", url);
+                http2.send("Hej igen");
+                http2.onreadystatechange = () =>  {
+                    if(http2.readyState === 4)
+                    {
+                        if(http2.status === 200 || http2.status == 0)
+                        {
+                            console.log("response: " + http2.response);
+                        }
+                    }
+                };
+
+            }
+        }
+        
     };
 }
 
