@@ -10,3 +10,11 @@ www/package.json
 [Pp]ayment[Ss]erver/bin
 [Pp]ayment[Ss]erver/obj
 [Pp]ayment[Ss]erver/[Uu]pgrade[Ll]og.htm
+
+test_server/bin
+test_server/out
+test_server/build
+test_server/.vs
+test_server/.clangd
+test_server/.proj.vim
+test_server/compile_commands.json
