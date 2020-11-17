@@ -67,7 +67,7 @@ int main(int argc, char** argv)
             printf("%s\n", buf);
 
                 //Host: localhost:9002\n
-            char* response_msg = "HTTP/1.1 200OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 18\nConnection: close\n\nHello typescript!\0";
+            char* response_msg = "HTTP/1.1 200 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 18\nConnection: close\n\nHello typescript!\0";
             int len = strlen(response_msg);
             response_msg[len-1] = 4;
             send(client_socket, response_msg, len+1, 0);
