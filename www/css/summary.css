@@ -1,6 +1,6 @@
 #headerBestallning
 {
-    font-size: 6em;
+    font-size: 800%;
 }
 
 #orderSummary
@@ -16,7 +16,8 @@
     width: 82%;
     border-bottom: 2px solid gray;
     height: 6%;
-    margin-bottom: -4%;
+    padding: 7px;
+    margin-bottom: 0;
 }
 
 .summaryElementName
