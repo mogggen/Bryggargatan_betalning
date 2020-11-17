@@ -11,3 +11,10 @@
     margin-top: 5px;
     font-size: 40px;
 }
+
+#orderButton
+{
+    font-size: 5em;
+    margin-top: 1em;
+    margin-bottom: 40px;
+}
