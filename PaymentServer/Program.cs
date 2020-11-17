@@ -1,11 +1,41 @@
 ﻿using System.IO;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace PaymentServer
 {
+    class HTTPClient
+    {
+        public byte[] buf { get; set; }
+
+        HttpListenerContext context;
+        
+        HttpListenerResponse response;
+
+        public HTTPClient(HttpListenerContext context)
+        {
+            this.context = context;
+            
+            Send("Muffins");
+        }
+
+        public void Send(string val)
+        {
+            response = context.Response;
+            response.AppendHeader("Access-Control-Allow-Origin", "*");
+            Stream output = response.OutputStream;
+            output.Write(Encoding.UTF8.GetBytes(val));
+            output.Dispose();
+
+            //send
+            response.Close();
+        }
+    };
+
     class Program
     {
         static void Main(string[] prefixes)
@@ -15,43 +45,38 @@ namespace PaymentServer
                 Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
                 return;
             }
-            // URI prefixes are required,
-            // for example "http://contoso.com:8080/index/".
+
             if (prefixes == null || prefixes.Length == 0)
-                throw new ArgumentException("prefixes");
+                throw new ArgumentException("ArgumentError: No prefixes given as an argument in Main().");
 
-            // Create a listener.
             HttpListener listener = new HttpListener();
-            // Add the prefixes.
+            
             foreach (string s in prefixes)
-            {
                 listener.Prefixes.Add(s);
+
+            while (true)
+            {
+                Thread.Sleep(1000);
+                listener.Start();
+
+                HttpListenerContext context = listener.GetContext(); // Note: The GetContext method blocks while waiting for a request.
+                HttpListenerRequest request = context.Request;
+
+                Stream input = request.InputStream;
+
+                byte[] buf = new byte[1024];
+                _ = input.Read(buf, 0, buf.Length);
+                input.Dispose();
+
+                HTTPClient temp = new HTTPClient(context);
+
+                Console.WriteLine(Encoding.UTF8.GetString(buf));
             }
-            listener.Start();
-            Console.WriteLine("Listening...");
-            // Note: The GetContext method blocks while waiting for a request.
-            HttpListenerContext context = listener.GetContext();
-            HttpListenerRequest request = context.Request;
-            // Obtain a response object.
-            HttpListenerResponse response = context.Response;
-            // Construct a response.
-            response.AppendHeader("Access-Control-Allow-Origin", "*");
-            Stream input = request.InputStream;
-            byte[] buf = new byte[512];
-            int count = input.Read(buf, 0, buf.Length);
-
-
-            Console.WriteLine(Encoding.Default.GetString(buf));
-
-            Stream output = response.OutputStream;
-            output.Write(Encoding.Default.GetBytes("<msg>Hello</msg>"));
-            output.Flush();
- 
-            response.Close();
-
-            // You must close the output stream.
-            listener.Stop();
-            //Queue<HttpListener> list = new Queue<HttpListener>();
+Queue<HTTPClient> list = new Queue<HTTPClient>();
+            
+                ////list.Enqueue(new HTTPClient(context));
+                //Thread.Sleep(1000);
+                //list.Dequeue();
             while (false)
             {
                 //  1. Ta emot betalningsförfrågningar från klienter
