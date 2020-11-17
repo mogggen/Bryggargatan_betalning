@@ -2,7 +2,7 @@
 {
     width: 400px;
     background-color: #e4e8bd;
-    color: WHITE;
+    color: white;
     border-radius: 100px;
     text-align: center;
     font-weight: bold;
@@ -10,4 +10,15 @@
     margin: auto;
     margin-top: 5px;
     font-size: 40px;
+}
+
+.nonDishButton
+{
+    width: 170px;
+    margin: 0;
+    margin-top: 15px;
+    float: right;
+    position: relative;
+    top: 0px;
+    right: -40px;
 }

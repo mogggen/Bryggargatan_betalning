@@ -13,7 +13,7 @@ body
     margin-bottom: 30px;
     margin-top: 50px;
     text-align: center;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
     font-size: 300%;
     font-family: cursive;
 }
@@ -41,10 +41,12 @@ body
 
 .menuItem
 {
+    position: relative;
     margin: auto;
     margin-bottom: 10%;
     text-align: center;
     max-width: 90%;
+    min-height: 5%;
     font-family: serif;
 }
 
@@ -83,7 +85,7 @@ body
     margin-bottom: 30px;
     margin-top: 50px;
     text-align: center;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
     font-size: 300%;
     font-family: cursive;
 }
@@ -106,4 +108,18 @@ body
 #dessertsDiv
 {
     font-size: 200%;
+}
+
+#nonDishTitle
+{
+    text-align: start;
+    width: 630px;
+    padding-top: 3.5%;
+    padding-bottom: 3.5%;
+    margin: 0;
+    margin-top: 15px;
+    font-size: 40px;
+    float: left;
+    position: relative;
+    top: 0px;
 }

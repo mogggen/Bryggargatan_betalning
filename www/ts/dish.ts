@@ -23,8 +23,8 @@ class MenuItem{
     
     menuToHTML():string{
         var menuItemString;
-        menuItemString = "<div class=\"menuItem\">" + this.name + " " + 
-            this.price.toString();
+        menuItemString = "<div class=\"menuItem\">" + '<div id="nonDishTitle">' + this.name + " ‧ " + 
+            this.price.toString() + "</div>";
         menuItemString += create_add_button_html(this.name, this.price);
         menuItemString += "</div>";
         return menuItemString;
