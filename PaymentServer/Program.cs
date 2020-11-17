@@ -5,22 +5,21 @@ using System.Net;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Net.Http;
 
 namespace PaymentServer
 {
-    class HTTPClient
+    class Client
     {
-        public byte[] buf { get; set; }
-
+        public string id = "4";
         HttpListenerContext context;
-        
+        string order;
         HttpListenerResponse response;
 
-        public HTTPClient(HttpListenerContext context)
+        public Client(HttpListenerContext context, string order)
         {
-            this.context = context;
+            this.context = context;            
             
-            Send("Muffins");
         }
 
         public void Send(string val)
@@ -33,6 +32,13 @@ namespace PaymentServer
 
             //send
             response.Close();
+        }
+
+        public void setContext(HttpListenerContext context)
+        {
+            this.context = context;
+
+
         }
     };
 
@@ -53,7 +59,7 @@ namespace PaymentServer
             
             foreach (string s in prefixes)
                 listener.Prefixes.Add(s);
-
+Queue<Client> list = new Queue<Client>();
             while (true)
             {
                 Thread.Sleep(1000);
@@ -68,11 +74,31 @@ namespace PaymentServer
                 _ = input.Read(buf, 0, buf.Length);
                 input.Dispose();
 
-                HTTPClient temp = new HTTPClient(context);
+                
+                bool lagra = true;
+                foreach (Client c in list)
+                {
+                    if (c.id.Substring(0,1) == Encoding.UTF8.GetString(buf).Substring(0, 1))
+                    {
+                        Console.WriteLine("Hittade annan klient");
+                        c.setContext(context);
+                        c.Send($"Hittade dig {c.id}");
+                        lagra = false;
+                    }
+                }
+                if (lagra)
+                {
+                    Client client = new Client(context, Encoding.UTF8.GetString(buf));
+                    client.Send(client.id);
+                    list.Enqueue(client);
+                    Console.WriteLine("faktiskt fungerar");
+                }
+
+                SendShit();
 
                 Console.WriteLine(Encoding.UTF8.GetString(buf));
             }
-Queue<HTTPClient> list = new Queue<HTTPClient>();
+
             
                 ////list.Enqueue(new HTTPClient(context));
                 //Thread.Sleep(1000);
@@ -86,6 +112,22 @@ Queue<HTTPClient> list = new Queue<HTTPClient>();
                 //  4. Skicka till webbappen att öppna Swish med mottagen payment request token
                 //  5. Väntar på en callback/bekräftelse från Swish.
                 //  6. Skicka bekräftelse till webapp och köket.
+            }
+        }
+        static async void SendShit()
+        {
+            HttpClient client = new HttpClient();
+            try
+            {
+                HttpResponseMessage msg = await client.GetAsync("http://localhost:9001");
+                msg.EnsureSuccessStatusCode();
+                string msgBody = await msg.Content.ReadAsStringAsync();
+                Console.WriteLine(msgBody);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }

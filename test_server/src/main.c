@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     struct sockaddr_in server_addr;
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(9002);
+    server_addr.sin_port = htons(9001);
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
     if(bind(listening_socket, (struct sockaddr*)&server_addr, sizeof(server_addr)) == SOCKET_ERROR)

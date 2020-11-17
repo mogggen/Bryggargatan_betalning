@@ -18,7 +18,7 @@ function SendToServer(msg: string)
                 console.log("response: " + http.response);
                 const http2 = new XMLHttpRequest();
                 http2.open("POST", url);
-                http2.send("Hej igen");
+                http2.send(http.response);
                 http2.onreadystatechange = () =>  {
                     if(http2.readyState === 4)
                     {
