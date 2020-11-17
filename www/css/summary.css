@@ -1,34 +1,39 @@
+#headerBestallning
+{
+    font-size: 6em;
+}
+
 #orderSummary
 {
     margin: auto;
     height: auto;
+    font-size: 300%;
 }
 
 .summaryElement
 {
     margin: auto;
-    width: 60%;
-    border-bottom: 1px solid gray;
-    height: 35px;
-    margin-bottom: -10px;
+    width: 82%;
+    border-bottom: 2px solid gray;
+    height: 6%;
+    margin-bottom: -4%;
 }
 
 .summaryElementName
 {
     position: absolute;
-    left: 21%;
+    left: 10%;
 }
 
 .summaryElementPrice
 {
     position: absolute;
-    right: 21%;
+    right: 10%;
 }
 
 #orderSumElement
 {
-    margin-bottom: 0px;
-    border-bottom: 2px solid gray;
+    border-bottom: 3px solid black;
 }
 
 #orderSum
