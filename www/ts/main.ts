@@ -1,5 +1,4 @@
 var menuItems:Array<MenuItem> = new Array();
-var selectedItems: Array<SelectedItem> = new Array();
 
 function onStartUp()
 {

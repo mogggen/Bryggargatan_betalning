@@ -14,22 +14,26 @@
 {
     margin: auto;
     width: 82%;
+    height: auto;
     border-bottom: 2px solid gray;
-    height: 6%;
+    position: relative;
+    overflow: auto;
     padding: 7px;
-    margin-bottom: 0;
 }
 
 .summaryElementName
 {
-    position: absolute;
-    left: 10%;
+    float: left;
+    margin: 0;
+    margin-top: 1%
 }
 
 .summaryElementPrice
 {
-    position: absolute;
-    right: 10%;
+    float: right;
+    margin: 0;
+    margin-top: 1%;
+    margin-right: 10px;
 }
 
 #orderSumElement
