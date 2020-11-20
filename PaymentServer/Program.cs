@@ -11,15 +11,17 @@ namespace PaymentServer
 {
     class Client
     {
-        public string id = "4";
+        public static int globId = 1;
+        public string id;
         HttpListenerContext context;
         string order;
         HttpListenerResponse response;
 
         public Client(HttpListenerContext context, string order)
         {
-            this.context = context;            
-            
+            this.context = context;
+            globId++;
+            id = globId.ToString();
         }
 
         public void Send(string val)
@@ -37,8 +39,6 @@ namespace PaymentServer
         public void setContext(HttpListenerContext context)
         {
             this.context = context;
-
-
         }
     };
 
@@ -59,10 +59,9 @@ namespace PaymentServer
             
             foreach (string s in prefixes)
                 listener.Prefixes.Add(s);
-Queue<Client> list = new Queue<Client>();
+            Queue<Client> list = new Queue<Client>();
             while (true)
-            {
-                Thread.Sleep(1000);
+            {                
                 listener.Start();
 
                 HttpListenerContext context = listener.GetContext(); // Note: The GetContext method blocks while waiting for a request.
@@ -70,17 +69,16 @@ Queue<Client> list = new Queue<Client>();
 
                 Stream input = request.InputStream;
 
-                byte[] buf = new byte[1024];
+                byte[] buf = new byte[2048];
                 _ = input.Read(buf, 0, buf.Length);
                 input.Dispose();
 
-                
                 bool lagra = true;
                 foreach (Client c in list)
                 {
                     if (c.id.Substring(0,1) == Encoding.UTF8.GetString(buf).Substring(0, 1))
                     {
-                        Console.WriteLine("Hittade annan klient");
+                        Console.WriteLine("Hittade en annan klient");
                         c.setContext(context);
                         c.Send($"Hittade dig {c.id}");
                         lagra = false;
@@ -91,28 +89,22 @@ Queue<Client> list = new Queue<Client>();
                     Client client = new Client(context, Encoding.UTF8.GetString(buf));
                     client.Send(client.id);
                     list.Enqueue(client);
+
                     Console.WriteLine("faktiskt fungerar");
                 }
 
-                SendShit();
+                //SendShit();
 
                 Console.WriteLine(Encoding.UTF8.GetString(buf));
             }
 
-            
-                ////list.Enqueue(new HTTPClient(context));
-                //Thread.Sleep(1000);
-                //list.Dequeue();
-            while (false)
-            {
-                //  1. Ta emot betalningsförfrågningar från klienter
-                //      lagra betalningsförfrågningarna
-                //  2. Skapa payment request (swish api)
-                //  3. Ta emot bekräftelse från swish
-                //  4. Skicka till webbappen att öppna Swish med mottagen payment request token
-                //  5. Väntar på en callback/bekräftelse från Swish.
-                //  6. Skicka bekräftelse till webapp och köket.
-            }
+            //  1. Ta emot betalningsförfrågningar från klienter
+            //  1.1  lagra betalningsförfrågningarna
+            //  2. Skapa payment request (swish api)
+            //  3. Ta emot bekräftelse från swish
+            //  4. Skicka till webbappen att öppna Swish med mottagen payment request token
+            //  5. Väntar på en callback/bekräftelse från Swish.
+            //  6. Skicka bekräftelse till webapp och köket.
         }
         static async void SendShit()
         {
