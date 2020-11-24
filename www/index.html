@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="css/menu.css">
         <link rel="stylesheet" href="css/button.css">
         <link rel="stylesheet" href="css/summary.css">
+        <link rel="stylesheet" href="css/tableid.css">
     </head>
     <body onload="onStartUp();">
         <div id="menuHead">
@@ -21,6 +22,10 @@
         
         <p class="subMenuHeadP" id="headerBestallning">Beställning</p>
         <div id="orderSummary">
+        </div>
+        <div id="tableidDiv">
+            <label for="tableid">Fyll i bordsnummer:</label>
+            <input type="text" id="tableid" name="tableid" maxlength="2">
         </div>
         <div class="button" id="orderButton" onclick="send_order_to_server();">Beställ</div>
     </body>

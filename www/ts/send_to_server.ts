@@ -1,7 +1,21 @@
 function send_order_to_server()
 {
+    var tableInputObject = <HTMLInputElement>document.getElementById("tableid");
+    var numberOfTables = 10;
+    //Making sure table number is a number within range
+    if(tableInputObject.value === "" 
+       || Number(tableInputObject.value) >= numberOfTables
+       || Number(tableInputObject.value) <= 0
+       || !(+tableInputObject.value)){
+        console.log("Need correct table id, tableid: " + tableInputObject.value);
+        
+        //Add GUI elements for user when table id is incorrect!!!
+        
+        return;
+    }
     let msg :string = order_to_xml();
     SendToServer(msg);
+    tableInputObject.value = "";
 }
 
 function SendToServer(msg: string)
@@ -43,15 +57,16 @@ function order_to_xml() :string
     //    <item name="Dagens soppa"/>
     //    <item name="Lyxig räkmacka">
     //        <milk_free/>
-    //        <gluent_free/>
+    //        <gluten_free/>
     //        <egg_free/>
     //        <notes>Jag vill inte ha räkor på min räckmacka</notes>
     //    </item>
     //    <item name="Dagens Bubbel"/>
     //    <item name="Fransk fiskgryta">
-    //        <gluent_free/>
+    //        <gluten_free/>
     //    </item>
     //    <price>1000</price>
+    //    <tableid>7</tableid>
     //</order>
 
     let xml :string = "";
@@ -83,7 +98,7 @@ function order_to_xml() :string
     });
 
     xml += "<price>" + total_price + "</price>";
-
+    xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableid")).value + "</tableid>";
     xml += "</order>";
 
     console.log(xml);
