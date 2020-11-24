@@ -2,6 +2,7 @@ function send_order_to_server()
 {
     var tableInputObject = <HTMLInputElement>document.getElementById("tableid");
     var numberOfTables = 10;
+    
     //Making sure table number is a number within range
     if(tableInputObject.value === "" 
        || Number(tableInputObject.value) >= numberOfTables
@@ -13,9 +14,27 @@ function send_order_to_server()
         
         return;
     }
+    
+    var phoneInputObject = <HTMLInputElement>document.getElementById("phonenrInput");
+    
+    //Making sure phone number is a 10 digit number
+    if(phoneInputObject.value === ""
+       || phoneInputObject.value.length !== 10
+       || Number(phoneInputObject.value) <= 0
+       || !(+phoneInputObject.value)){
+        console.log("Need a valid phone nr, phonenr: " + phoneInputObject.value);
+        
+        //Add GUI elements for user when phone number is incorrect!!!
+        
+        return;
+    }
+    
     let msg :string = order_to_xml();
     SendToServer(msg);
+    
+    //Reset tableid textbox for stylistic purposes
     tableInputObject.value = "";
+    phoneInputObject.value = "";
 }
 
 function SendToServer(msg: string)
@@ -67,6 +86,7 @@ function order_to_xml() :string
     //    </item>
     //    <price>1000</price>
     //    <tableid>7</tableid>
+    //    <phonenr>0701234567</phonenr>
     //</order>
 
     let xml :string = "";
@@ -99,6 +119,7 @@ function order_to_xml() :string
 
     xml += "<price>" + total_price + "</price>";
     xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableid")).value + "</tableid>";
+    xml += "<phonenr>" + (<HTMLInputElement>document.getElementById("phonenrInput")).value + "</phonenr>";
     xml += "</order>";
 
     console.log(xml);
