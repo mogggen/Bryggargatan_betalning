@@ -45,6 +45,8 @@ class Dish extends MenuItem{
     is_egg_free: string;
     eggFreeFO: FoodOption;
     contains_soy: boolean;
+
+    is_expanded: boolean = false;
     
     constructor(name:string, price:number, type:string, description:string, is_milk_free:string, is_gluten_free:string, is_egg_free: string, contains_soy:boolean){
         super(name, price);
@@ -77,7 +79,7 @@ class Dish extends MenuItem{
             "<p id=desc>" + this.description + "</p>" +
             this.getFoodOptionsHTML();
 
-        menuItemString += create_add_dish_button_html(this.name, this.price);
+        menuItemString += create_add_dish_buttons_html(this);
         menuItemString += "</div>";
         return menuItemString;
     }
