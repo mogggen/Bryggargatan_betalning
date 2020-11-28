@@ -1,0 +1,13 @@
+#phonenrDiv
+{
+    margin: auto;
+    margin-top: 25px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 300%;
+}
+
+#phonenrInput
+{
+    width: 35%;
+}
