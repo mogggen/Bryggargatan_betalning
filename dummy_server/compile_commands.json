@@ -1,0 +1,12 @@
+[
+{
+  "directory": "C:/Users/maglii-9-local/Documents/test_server/build",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1427~1.291\\bin\\Hostx64\\x64\\cl.exe  /nologo -I..\\ /DWIN32 /D_WINDOWS /W3 /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\server.dir\\src\\main.c.obj /FdTARGET_COMPILE_PDB /FS -c C:\\Users\\maglii-9-local\\Documents\\test_server\\src\\main.c",
+  "file": "C:/Users/maglii-9-local/Documents/test_server/src/main.c"
+},
+{
+  "directory": "C:/Users/maglii-9-local/Documents/test_server/build",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1427~1.291\\bin\\Hostx64\\x64\\cl.exe  /nologo -I..\\ /DWIN32 /D_WINDOWS /W3 /MDd /Zi /Ob0 /Od /RTC1 /FoCMakeFiles\\server.dir\\src\\socket.c.obj /FdTARGET_COMPILE_PDB /FS -c C:\\Users\\maglii-9-local\\Documents\\test_server\\src\\socket.c",
+  "file": "C:/Users/maglii-9-local/Documents/test_server/src/socket.c"
+}
+]
