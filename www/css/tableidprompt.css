@@ -1,6 +1,7 @@
 #tableidpromptDiv
 {
     text-align: end;
+    color: red;
     font-size: 24px;
     display: none;
 }

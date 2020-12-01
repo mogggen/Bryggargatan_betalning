@@ -1,51 +1,55 @@
 function send_order_to_server()
 {
     var numberOfTables = 10;
-    var tableInputObject =
-        <HTMLInputElement>document.getElementById("tableid");
+    var errorColor = "rgb(250, 160, 160)";
     
-    var tableInputPromptObject =
-        <HTMLLabelElement>document.getElementById("tableidpromptDiv");
+    var tableidInputObject =
+        <HTMLInputElement>document.getElementById("tableidInput");
+    var tableidInputPromptObject =
+        <HTMLDivElement>document.getElementById("tableidpromptDiv");
     
-    //Making sure table number is a number within range
-    if(tableInputObject.value === "" 
-       || Number(tableInputObject.value) >= numberOfTables
-       || Number(tableInputObject.value) <= 0
-       || !(+tableInputObject.value)){
-        console.log("Table");
-        tableInputPromptObject.style.display = "inline";
-    }
-    else
-    {
-        tableInputPromptObject.style.display = "none";
-    }
-    
-    var phoneInputObject =
+    var phonenrInputObject =
         <HTMLInputElement>document.getElementById("phonenrInput");
-    
-    var phoneInputPromptObject =
+    var phonenrInputPromptObject =
         <HTMLDivElement>document.getElementById("phonenrpromptDiv");
     
-    //Making sure phone number is a 10 digit number
-    if(phoneInputObject.value === ""
-       || phoneInputObject.value.length !== 10
-       || Number(phoneInputObject.value) <= 0
-       || !(+phoneInputObject.value)){
-        console.log("Phone");
-        phoneInputPromptObject.style.display = "inline";
-        return;
+    var invalidphonenr = phonenrInputObject.value === ""
+       || phonenrInputObject.value.length < 10;
+    
+    var invalidtableid = tableidInputObject.value === "" 
+       || Number(tableidInputObject.value) > numberOfTables;
+    
+    //Making sure table number is a number within range
+    if(invalidtableid){
+        tableidInputObject.style.background = errorColor;
+        tableidInputPromptObject.style.display = "inline";
     }
-    else
-    {
-        phoneInputPromptObject.style.display = "none";
+    else{
+        tableidInputObject.style.background = "white";
+        tableidInputPromptObject.style.display = "none";
+    }
+    
+    //Making sure phone number is at least a 10 digit number
+    if(invalidphonenr){
+        phonenrInputObject.style.background = errorColor;
+        phonenrInputPromptObject.style.display = "inline";
+    }
+    else{
+        phonenrInputObject.style.background = "white";
+        phonenrInputPromptObject.style.display = "none";
+    }
+    
+    //make sure the function only continues with valid data
+    if (invalidtableid || invalidphonenr){
+        return;
     }
     
     let msg :string = order_to_xml();
     SendToServer(msg);
     
     //Reset tableid textbox for stylistic purposes
-    tableInputObject.value = "";
-    phoneInputObject.value = "";
+    tableidInputObject.value = "";
+    phonenrInputObject.value = "";
 }
 
 function SendToServer(msg: string)
@@ -129,7 +133,7 @@ function order_to_xml() :string
     });
 
     xml += "<price>" + total_price + "</price>";
-    xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableid")).value + "</tableid>";
+    xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableidInput")).value + "</tableid>";
     xml += "<phonenr>" + (<HTMLInputElement>document.getElementById("phonenrInput")).value + "</phonenr>";
     xml += "</order>";
 
