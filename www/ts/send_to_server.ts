@@ -1,32 +1,43 @@
 function send_order_to_server()
 {
-    var tableInputObject = <HTMLInputElement>document.getElementById("tableid");
     var numberOfTables = 10;
+    var tableInputObject =
+        <HTMLInputElement>document.getElementById("tableid");
+    
+    var tableInputPromptObject =
+        <HTMLLabelElement>document.getElementById("tableidpromptDiv");
     
     //Making sure table number is a number within range
     if(tableInputObject.value === "" 
        || Number(tableInputObject.value) >= numberOfTables
        || Number(tableInputObject.value) <= 0
        || !(+tableInputObject.value)){
-        console.log("Need correct table id, tableid: " + tableInputObject.value);
-        
-        //Add GUI elements for user when table id is incorrect!!!
-        
-        return;
+        console.log("Table");
+        tableInputPromptObject.style.display = "inline";
+    }
+    else
+    {
+        tableInputPromptObject.style.display = "none";
     }
     
-    var phoneInputObject = <HTMLInputElement>document.getElementById("phonenrInput");
+    var phoneInputObject =
+        <HTMLInputElement>document.getElementById("phonenrInput");
+    
+    var phoneInputPromptObject =
+        <HTMLDivElement>document.getElementById("phonenrpromptDiv");
     
     //Making sure phone number is a 10 digit number
     if(phoneInputObject.value === ""
        || phoneInputObject.value.length !== 10
        || Number(phoneInputObject.value) <= 0
        || !(+phoneInputObject.value)){
-        console.log("Need a valid phone nr, phonenr: " + phoneInputObject.value);
-        
-        //Add GUI elements for user when phone number is incorrect!!!
-        
+        console.log("Phone");
+        phoneInputPromptObject.style.display = "inline";
         return;
+    }
+    else
+    {
+        phoneInputPromptObject.style.display = "none";
     }
     
     let msg :string = order_to_xml();
