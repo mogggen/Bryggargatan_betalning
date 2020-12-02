@@ -18,7 +18,6 @@ function addNewExpandDivHolder(dish :Dish):string{
 
 //CURRENTLY OBSOLETE
 function addExpandDiv(dish_index:number) :void{
-    let dish :Dish = menuItems[dish_index] as Dish;
     let expandDivHolder = document.getElementById("expandDivHolder"+dish_index);
     
     expandDivHolder.innerHTML = 
@@ -41,15 +40,15 @@ function addExpandDiv(dish_index:number) :void{
     
 }
 
+//Toggles css classes on current expandDiv which add visibility: visible and height: 18% or so
 function showExpandDiv(dish_index:number) :void{
-    let dish :Dish = menuItems[dish_index] as Dish;
     let expandDiv = document.getElementById("expandDiv"+dish_index);
     expandDiv.classList.toggle("visibility");
     expandDiv.classList.toggle("show");
 }
 
+//Toggles css classes on current expandDiv which in turn sets height to 0% and after a delay removes visibility
 function hideExpandDiv(dish_index:number) :void{
-    let dish :Dish = menuItems[dish_index] as Dish;
     let expandDiv = document.getElementById("expandDiv"+dish_index);
     
     (async () => { 
@@ -68,20 +67,24 @@ function delay(ms: number) {
 function preCheckBoxes(dish_index:number) :void{
     let dish :Dish = menuItems[dish_index] as Dish;
     let labels = document.getElementsByClassName("expandLabel");
-    let mf = document.getElementsByName("MF");
     
+    //Check the FO value of milk free on the current dish
+    let mf = document.getElementsByName("MF");
     switch(dish.milkFreeFO){
+        //If it is inherently milk free then user does not need to be able to interact with the box, also checks the box
         case FoodOption.Yes: {
             mf[dish_index].setAttribute("checked", "checked");
             mf[dish_index].setAttribute("disabled", "disabled");
             labels[dish_index*3].classList.toggle("disabled");
             break;
         }
+        //If it is inherently not milk free user does not need to be able to interact
         case FoodOption.No: {
             mf[dish_index].setAttribute("disabled", "disabled");
             labels[dish_index*3].classList.toggle("disabled");
             break;
         }
+        //If either way is possible then nothing needs to be changed because that's where the checkbox comes into play
         case FoodOption.Possible: {
             break;
         }
@@ -90,6 +93,7 @@ function preCheckBoxes(dish_index:number) :void{
         }
     }
     
+    //Same as MF
     let gf = document.getElementsByName("GF");
     switch(dish.glutenFreeFO){
         case FoodOption.Yes: {
@@ -110,7 +114,8 @@ function preCheckBoxes(dish_index:number) :void{
             break;
         }
     }
-
+    
+    //Same as MF
     let ef = document.getElementsByName("EF");
     switch(dish.eggFreeFO){
         case FoodOption.Yes: {

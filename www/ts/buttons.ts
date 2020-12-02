@@ -29,8 +29,14 @@ function add_button_callback(dish_name :string, price :string) :void
 function add_dish_button_callback(dish_index :number) :void
 {
     let dish :Dish = menuItems[dish_index] as Dish;
+    
+    //Finding the correct input checkbox for each value
+    let ef = (<HTMLInputElement>document.getElementsByName("EF")[dish_index]);
+    let mf = (<HTMLInputElement>document.getElementsByName("MF")[dish_index]);
+    let gf = (<HTMLInputElement>document.getElementsByName("GF")[dish_index]);
+    
     console.log("added " + dish.name + " " + dish.price.toString());
-    selectedItems.push(new SelectedItem( dish.name, +dish.price, false, false, false ));
+    selectedItems.push(new SelectedItem( dish.name, +dish.price, ef.checked, mf.checked, gf.checked )); //HTMLInputElement.checked returns true or false
     console.log(selectedItems);
     update_order_summary();
 }
@@ -42,16 +48,15 @@ function expand_button_callback(dish_index :number) :void
 
     if(dish.is_expanded === true)
     {
+        // Retracting
         hideExpandDiv(dish_index);
         dish.is_expanded = false;
         console.log("retract");
         expand_button_content.classList.remove("arrow_up");
-        
-        // Add Retracting stuff here
     }
     else
     {
-        // Add Expanding stuff here
+        // Expanding
         showExpandDiv(dish_index);
         dish.is_expanded = true;
         console.log("expand");
