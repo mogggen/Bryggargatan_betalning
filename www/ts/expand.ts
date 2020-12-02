@@ -1,0 +1,134 @@
+//Adds a holder and an expand div in HTML, the holder is there if 
+// we want to remove the old expand div whenever opening a new one
+function addNewExpandDivHolder(dish :Dish):string{
+    let dish_index :number = menuItems.indexOf(dish);
+    var expandHTML = 
+    "<div class=\"expandDivHolder\" id=\"expandDivHolder"+dish_index+"\">"+
+        "<div class=\"expandDiv\" id=\"expandDiv"+dish_index+"\">"+
+            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"MF\" name=\"MF\" value=\"MF\">"+
+            "<label class=\"expandLabel\" for=\"MF\">Mjölkfri</label><br>"+
+            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"GF\" name=\"GF\" value=\"GF\">"+
+            "<label class=\"expandLabel\" for=\"GF\">Glutenfri</label><br>"+
+            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"EF\" name=\"EF\" value=\"EF\">"+
+            "<label class=\"expandLabel\" for=\"EF\">Äggfri</label>"+
+        "</div>"+
+    "</div>";
+    return expandHTML;
+}
+
+//CURRENTLY OBSOLETE
+function addExpandDiv(dish_index:number) :void{
+    let dish :Dish = menuItems[dish_index] as Dish;
+    let expandDivHolder = document.getElementById("expandDivHolder"+dish_index);
+    
+    expandDivHolder.innerHTML = 
+        "<div class=\"expandDiv\" id=\"expandDiv"+dish_index+"\">"+
+            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"MF\" name=\"MF\" value=\"MF\">"+
+            "<label class=\"expandLabel\" for=\"MF\">Mjölkfri</label><br>"+
+            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"GF\" name=\"GF\" value=\"GF\">"+
+            "<label class=\"expandLabel\" for=\"GF\">Glutenfri</label><br>"+
+            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"EF\" name=\"EF\" value=\"EF\">"+
+            "<label class=\"expandLabel\" for=\"EF\">Äggfri</label>"+
+        "</div>";
+    
+    /*let expandDiv = document.getElementById("expandDiv"+dish_index);
+    (async () => { 
+
+        await delay(10);
+    
+        expandDiv.classList.toggle("show");
+    })();*/
+    
+}
+
+function showExpandDiv(dish_index:number) :void{
+    let dish :Dish = menuItems[dish_index] as Dish;
+    let expandDiv = document.getElementById("expandDiv"+dish_index);
+    expandDiv.classList.toggle("visibility");
+    expandDiv.classList.toggle("show");
+}
+
+function hideExpandDiv(dish_index:number) :void{
+    let dish :Dish = menuItems[dish_index] as Dish;
+    let expandDiv = document.getElementById("expandDiv"+dish_index);
+    
+    (async () => { 
+        expandDiv.classList.toggle("show");
+
+        await delay(645);
+    
+        expandDiv.classList.toggle("visibility");
+    })();
+}
+
+function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
+function preCheckBoxes(dish_index:number) :void{
+    let dish :Dish = menuItems[dish_index] as Dish;
+    let labels = document.getElementsByClassName("expandLabel");
+    let mf = document.getElementsByName("MF");
+    
+    switch(dish.milkFreeFO){
+        case FoodOption.Yes: {
+            mf[dish_index].setAttribute("checked", "checked");
+            mf[dish_index].setAttribute("disabled", "disabled");
+            labels[dish_index*3].classList.toggle("disabled");
+            break;
+        }
+        case FoodOption.No: {
+            mf[dish_index].setAttribute("disabled", "disabled");
+            labels[dish_index*3].classList.toggle("disabled");
+            break;
+        }
+        case FoodOption.Possible: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+    
+    let gf = document.getElementsByName("GF");
+    switch(dish.glutenFreeFO){
+        case FoodOption.Yes: {
+            gf[dish_index].setAttribute("checked", "checked");
+            gf[dish_index].setAttribute("disabled", "disabled");
+            labels[dish_index*3 + 1].classList.toggle("disabled");
+            break;
+        }
+        case FoodOption.No: {
+            gf[dish_index].setAttribute("disabled", "disabled");
+            labels[dish_index*3 +1].classList.toggle("disabled");
+            break;
+        }
+        case FoodOption.Possible: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+
+    let ef = document.getElementsByName("EF");
+    switch(dish.eggFreeFO){
+        case FoodOption.Yes: {
+            ef[dish_index].setAttribute("checked", "checked");
+            ef[dish_index].setAttribute("disabled", "disabled");
+            labels[dish_index*3 +2].classList.toggle("disabled");
+            break;
+        }
+        case FoodOption.No: {
+            ef[dish_index].setAttribute("disabled", "disabled");
+            labels[dish_index*3 +2].classList.toggle("disabled");
+            break;
+        }
+        case FoodOption.Possible: {
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}

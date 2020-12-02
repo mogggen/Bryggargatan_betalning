@@ -1,0 +1,61 @@
+
+.expandDivHolder
+{
+    margin-top: 5%;
+    margin-bottom: -5%;
+    width: 100%;
+}
+
+.expandDiv
+{
+    position: relative;
+    margin: auto;
+    padding-top: 0%;
+    height: 0%;
+    width: 100%;
+    font-size: 300%;
+    text-align: start;
+    border-left: solid black 1px;
+    border-right: solid black 1px;
+    border-bottom: solid black 3px;
+    background: -webkit-linear-gradient(black, #e6e7f0 10%); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(black, #e6e7f0 10%); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(black, #e6e7f0 10%); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(black, #e6e7f0 10%); /* Standard syntax (must be last) */
+    overflow: hidden;
+    visibility: collapse;
+    transition: 0.65s height, 0.65s padding;
+}
+.expandDiv.show
+{
+    height: 18%;
+    padding-top: 5%;
+}
+.expandDiv.visibility
+{
+    visibility: visible;
+}
+
+.expandLabel
+{
+    position: absolute;
+    left: 15%;
+}
+.expandLabel.disabled
+{
+    color: #d4d4d4;
+}
+
+input[type=checkbox]
+{
+    position: absolute;
+    right: 15%;
+    margin: auto;
+    margin-top: 2%;
+    transform: scale(3);
+}
+
+input[type=checkbox][disabled]
+{
+    filter: invert(15%);
+}

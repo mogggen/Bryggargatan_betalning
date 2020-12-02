@@ -79,6 +79,7 @@ class Dish extends MenuItem{
             "<p id=desc>" + this.description + "</p>" +
             this.getFoodOptionsHTML();
 
+        menuItemString += addNewExpandDivHolder(this);
         menuItemString += create_add_dish_buttons_html(this);
         menuItemString += "</div>";
         return menuItemString;

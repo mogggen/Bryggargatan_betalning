@@ -42,6 +42,7 @@ function expand_button_callback(dish_index :number) :void
 
     if(dish.is_expanded === true)
     {
+        hideExpandDiv(dish_index);
         dish.is_expanded = false;
         console.log("retract");
         expand_button_content.classList.remove("arrow_up");
@@ -51,6 +52,7 @@ function expand_button_callback(dish_index :number) :void
     else
     {
         // Add Expanding stuff here
+        showExpandDiv(dish_index);
         dish.is_expanded = true;
         console.log("expand");
         expand_button_content.classList.add("arrow_up");
