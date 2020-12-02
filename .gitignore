@@ -11,10 +11,10 @@ www/package.json
 [Pp]ayment[Ss]erver/obj
 [Pp]ayment[Ss]erver/[Uu]pgrade[Ll]og.htm
 
-test_server/bin
-test_server/out
-test_server/build
-test_server/.vs
-test_server/.clangd
-test_server/.proj.vim
-test_server/compile_commands.json
+dummy_server/bin
+dummy_server/out
+dummy_server/build
+dummy_server/.vs
+dummy_server/.clangd
+dummy_server/.proj.vim
+dummy_server/compile_commands.json

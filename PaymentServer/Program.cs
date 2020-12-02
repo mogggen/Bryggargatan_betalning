@@ -30,7 +30,7 @@ namespace PaymentServer
             response.AppendHeader("Access-Control-Allow-Origin", "*");
             Stream output = response.OutputStream;
             output.Write(Encoding.UTF8.GetBytes(val));
-            output.Dispose();
+			output.Dispose();
 
             //send
             response.Close();
@@ -72,6 +72,7 @@ namespace PaymentServer
                 byte[] buf = new byte[2048];
                 _ = input.Read(buf, 0, buf.Length);
                 input.Dispose();
+                Console.WriteLine(Encoding.UTF8.GetString(buf));
 
                 bool lagra = true;
                 foreach (Client c in list)
@@ -91,11 +92,9 @@ namespace PaymentServer
                     list.Enqueue(client);
 
                     Console.WriteLine("faktiskt fungerar");
+                    SendDummySwishRequest();
                 }
 
-                //SendShit();
-
-                Console.WriteLine(Encoding.UTF8.GetString(buf));
             }
 
             //  1. Ta emot betalningsförfrågningar från klienter
@@ -106,12 +105,18 @@ namespace PaymentServer
             //  5. Väntar på en callback/bekräftelse från Swish.
             //  6. Skicka bekräftelse till webapp och köket.
         }
-        static async void SendShit()
+        static async void SendDummySwishRequest()
         {
             HttpClient client = new HttpClient();
+            HttpRequestMessage req_msg = new HttpRequestMessage(HttpMethod.Put, "http://localhost:9001");
+
+            IPAddress[] myIPs = Dns.GetHostAddresses(Dns.GetHostName());
+            string myIP = myIPs[1].ToString();
+			Console.WriteLine("myIp: " + myIP);
+            req_msg.Content = new ByteArrayContent(Encoding.ASCII.GetBytes(myIP));
             try
             {
-                HttpResponseMessage msg = await client.GetAsync("http://localhost:9001");
+                HttpResponseMessage msg = await client.SendAsync(req_msg);
                 msg.EnsureSuccessStatusCode();
                 string msgBody = await msg.Content.ReadAsStringAsync();
                 Console.WriteLine(msgBody);
