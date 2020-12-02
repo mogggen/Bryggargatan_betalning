@@ -39,12 +39,11 @@
         
         <div id="phonenrDiv">
             <label for="phonenr">Telefon nummer för Swish:</label>
-            <input type="text" inputmode="numeric" id="phonenrInput" name="phonenr" value="" maxlength="10" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
             <input type="text" inputmode="numeric" id="phonenrInput" name="phonenr" maxlength="12" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" value="">
         </div>
         
         <div id="phonenrpromptDiv">
-            <label>* Felaktigt telefonummer (minst 10 siffror, landsnummret ska anges för utlänska telefonnummer)</label>
+            <label>* Felaktigt telefonnummer (minst 10 siffror, landsnummret ska anges för utländska telefonnummer)</label>
         </div>
         
         <div class="button" id="orderButton" onclick="send_order_to_server();">Beställ</div>

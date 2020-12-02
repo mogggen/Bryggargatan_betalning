@@ -15,9 +15,11 @@ function send_order_to_server()
     
     var invalidphonenr = phonenrInputObject.value === ""
        || phonenrInputObject.value.length < 10;
+    //OBS Add check for if value is not a number!!!
     
     var invalidtableid = tableidInputObject.value === "" 
        || Number(tableidInputObject.value) > numberOfTables;
+    //OBS Add check for if value is not a number!!!
     
     //Making sure table number is a number within range
     if(invalidtableid){
