@@ -20,7 +20,7 @@ function create_add_dish_buttons_html(dish :Dish): string
 
 function add_button_callback(dish_name :string, price :string) :void
 {
-    console.log("added " + dish_name + " " + price.toString());
+    document.getElementById("notificationDiv").innerHTML = "added " + dish_name + " " + price.toString();
     selectedItems.push(new SelectedItem( dish_name, +price, false, false, false ));
     console.log(selectedItems);
     update_order_summary();
