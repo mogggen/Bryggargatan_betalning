@@ -14,11 +14,13 @@ function send_order_to_server()
         <HTMLDivElement>document.getElementById("phonenrpromptDiv");
     
     var invalidphonenr = phonenrInputObject.value === ""
-       || phonenrInputObject.value.length < 10;
+        || phonenrInputObject.value.length < 10
+        || !(+phonenrInputObject.value);
     //OBS Add check for if value is not a number!!!
     
     var invalidtableid = tableidInputObject.value === "" 
-       || Number(tableidInputObject.value) > numberOfTables;
+        || Number(tableidInputObject.value) > numberOfTables
+        || !(+tableidInputObject.value);
     //OBS Add check for if value is not a number!!!
     
     //Making sure table number is a number within range
