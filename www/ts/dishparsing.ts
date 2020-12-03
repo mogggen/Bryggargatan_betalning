@@ -63,6 +63,11 @@ function parseAndPrintDishesFile(allText: string){
     
     document.getElementById("menuDiv").innerHTML = printText;
     //printParsedDishes(); integrated this function into current one.
+    
+    
+    for(var i = 0; i < parsedText.dishes.length; i++){
+        preCheckBoxes(i);
+    }
 }
 
 //Obsolete

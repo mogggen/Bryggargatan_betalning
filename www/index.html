@@ -3,13 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <title>Bryggargatan Beställ</title>
-        <meta charset="UTF-8">
         <script src="js/main.js"></script>
         <link rel="stylesheet" href="css/menu.css">
         <link rel="stylesheet" href="css/button.css">
         <link rel="stylesheet" href="css/summary.css">
         <link rel="stylesheet" href="css/tableid.css">
+        <link rel="stylesheet" href="css/tableidprompt.css">
         <link rel="stylesheet" href="css/phonenr.css">
+        <link rel="stylesheet" href="css/expand.css">
+        <link rel="stylesheet" href="css/phonenrprompt.css">
+        <link rel="stylesheet" href="css/fonts.css">
     </head>
     <body onload="onStartUp();">
         <div id="menuHead">
@@ -17,6 +20,7 @@
             <p class="menuHeadP" id="header2P">tisdag - fredag <br></p>
             <p class="menuHeadP" id="header3P">SERVERAS 11.30 - 13.30</p>
         </div>
+        
         <div id="menuDiv">
             
         </div>
@@ -27,12 +31,20 @@
         
         <div id="tableidDiv">
             <label for="tableid">Fyll i bordsnummer:</label>
-            <input type="text" inputmode="numeric" id="tableid" name="tableid" maxlength="2" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" value="">
+            <input type="text" inputmode="numeric" id="tableidInput" name="tableid" maxlength="2" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" value="">
+        </div>
+        
+        <div id="tableidpromptDiv">
+            <label>* Felaktigt bordsnummer</label>
         </div>
         
         <div id="phonenrDiv">
             <label for="phonenr">Telefon nummer för Swish:</label>
-            <input type="text" inputmode="numeric" id="phonenrInput" name="phonenr" value="" maxlength="15" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+            <input type="text" inputmode="numeric" id="phonenrInput" name="phonenr" maxlength="12" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" value="">
+        </div>
+        
+        <div id="phonenrpromptDiv">
+            <label>* Felaktigt telefonnummer (minst 10 siffror, landsnummret ska anges för utländska telefonnummer)</label>
         </div>
         
         <div class="button" id="orderButton" onclick="send_order_to_server();">Beställ</div>
