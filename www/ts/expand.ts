@@ -5,12 +5,18 @@ function addNewExpandDivHolder(dish :Dish):string{
     var expandHTML = 
     "<div class=\"expandDivHolder\" id=\"expandDivHolder"+dish_index+"\">"+
         "<div class=\"expandDiv\" id=\"expandDiv"+dish_index+"\">"+
-            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"MF\" name=\"MF\" value=\"MF\">"+
-            "<label class=\"expandLabel\" for=\"MF\">Mjölkfri</label><br>"+
-            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"GF\" name=\"GF\" value=\"GF\">"+
-            "<label class=\"expandLabel\" for=\"GF\">Glutenfri</label><br>"+
-            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"EF\" name=\"EF\" value=\"EF\">"+
-            "<label class=\"expandLabel\" for=\"EF\">Äggfri</label>"+
+            "<div class=\"expandCheckbox1\">"+
+                "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"MF\" name=\"MF\" value=\"MF\">"+
+                "<label class=\"expandLabel\" for=\"MF\">Mjölkfri</label><br>"+
+            "</div>"+
+            "<div class=\"expandCheckbox2\">"+
+                "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"GF\" name=\"GF\" value=\"GF\">"+
+                "<label class=\"expandLabel\" for=\"GF\">Glutenfri</label><br>"+
+            "</div>"+
+            "<div class=\"expandCheckbox3\">"+
+                "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"EF\" name=\"EF\" value=\"EF\">"+
+                "<label class=\"expandLabel\" for=\"EF\">Äggfri</label>"+
+            "</div>"+
         "</div>"+
     "</div>";
     return expandHTML;

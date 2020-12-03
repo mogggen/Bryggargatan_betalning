@@ -24,7 +24,7 @@
     background: linear-gradient(black, #e6e7f0 10%); /* Standard syntax (must be last) */
     overflow: hidden;
     visibility: collapse;
-    transition: 0.65s height, 0.65s padding;
+    transition: 0.65s height, 0.65s padding, 0.65s overflow;
 }
 .expandDiv.show
 {
@@ -58,4 +58,34 @@ input[type=checkbox]
 input[type=checkbox][disabled]
 {
     filter: invert(15%);
+}
+
+
+.expandCheckbox1
+{
+    margin-top: 2%;
+}
+.expandCheckbox2
+{
+    margin-top: 2%;
+}
+.expandCheckbox3
+{
+    margin-top: 2%;
+}
+
+@-moz-document url-prefix(){
+    .expandDiv.show
+    {
+        height: 22%;
+    }
+    .expandCheckbox1{
+        margin-top: 5%;
+    }
+    .expandCheckbox2{
+        margin-top: 7%;
+    }
+    .expandCheckbox3{
+        margin-top: 7%;
+    }
 }
