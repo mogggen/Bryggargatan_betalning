@@ -33,8 +33,8 @@ function send_order_to_server()
     SendToServer(msg);
     
     //Reset tableid textbox for stylistic purposes
-    tableInputObject.value = "";
-    phoneInputObject.value = "";
+    //tableInputObject.value = "";
+    //phoneInputObject.value = "";
 }
 
 function SendToServer(msg: string)
@@ -61,7 +61,6 @@ function SendToServer(msg: string)
                         }
                     }
                 };
-
             }
         }
         

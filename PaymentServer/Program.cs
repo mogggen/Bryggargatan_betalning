@@ -2,45 +2,38 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace PaymentServer
 {
-    class Client
-    {
-        public static int globId = 1;
-        public string id;
-        HttpListenerContext context;
-        string order;
-        HttpListenerResponse response;
 
-        public Client(HttpListenerContext context, string order)
-        {
-            this.context = context;
-            globId++;
-            id = globId.ToString();
-        }
+	//  1. Ta emot betalningsförfrågningar från klienter
+	//  2. Skapa payment request (swish api)
+	//  3. Ta emot bekräftelse från swish
+	//  4. Skicka till webbappen att öppna Swish med mottagen payment request token (first response)
+	//  5. Väntar på en callback/bekräftelse från Swish och andra meddelandet från webbappen.
+	//  6. Skicka bekräftelse till webapp och köket. (second response)
+    //
+    //  stage      WebApp          Server          Swish
+    //    1            ---------->                              
+    //    2                             --------->
+    //    3                             <---------
+    //    4            <----------
+    //    5            ---------->      <--------- 
+    //    6            <----------
+    //       
 
-        public void Send(string val)
-        {
-            response = context.Response;
-            response.AppendHeader("Access-Control-Allow-Origin", "*");
-            Stream output = response.OutputStream;
-            output.Write(Encoding.UTF8.GetBytes(val));
-			output.Dispose();
 
-            //send
-            response.Close();
-        }
 
-        public void setContext(HttpListenerContext context)
-        {
-            this.context = context;
-        }
-    };
+
+
+
+
+
 
     class Program
     {
@@ -59,7 +52,7 @@ namespace PaymentServer
             
             foreach (string s in prefixes)
                 listener.Prefixes.Add(s);
-            Queue<Client> list = new Queue<Client>();
+            List<Client> list = new List<Client>();
             while (true)
             {                
                 listener.Start();
@@ -68,63 +61,68 @@ namespace PaymentServer
                 HttpListenerRequest request = context.Request;
 
                 Stream input = request.InputStream;
+                StreamReader sr = new StreamReader(input);
+                string msg = sr.ReadToEnd();
 
-                byte[] buf = new byte[2048];
-                _ = input.Read(buf, 0, buf.Length);
-                input.Dispose();
-                Console.WriteLine(Encoding.UTF8.GetString(buf));
-
-                bool lagra = true;
-                foreach (Client c in list)
+                if (msg.Substring(0, 7) == "<order>")
                 {
-                    if (c.id.Substring(0,1) == Encoding.UTF8.GetString(buf).Substring(0, 1))
+                    // receive order 
+                    // stage 1
+                    Client client = new Client(new WebbappResponse(context.Response), msg);
+                    list.Add(client);
+
+                    client.SendSwishRequest();
+                    Console.WriteLine("New client");
+                }
+                else if (msg.Substring(0, 8) == "<client>")
+                {
+                    // receieve second message from webapp
+                    // stage 5
+
+
+                    // get client id from msg
+                    XmlDocument xdoc = new XmlDocument();
+                    xdoc.LoadXml(msg);
+                    var client_id = xdoc.GetElementsByTagName("id");
+                    string id = client_id[0].InnerText;
+
+                    // already existing client
+                    foreach (Client c in list)
                     {
-                        Console.WriteLine("Hittade en annan klient");
-                        c.setContext(context);
-                        c.Send($"Hittade dig {c.id}");
-                        lagra = false;
+                        if (c.Id == id)
+                        {
+                            Console.WriteLine("Hittade en annan klient");
+                            c.setSecondResponse(new WebbappResponse(context.Response));
+                        }
                     }
                 }
-                if (lagra)
+                else if (msg != "")
                 {
-                    Client client = new Client(context, Encoding.UTF8.GetString(buf));
-                    client.Send(client.id);
-                    list.Enqueue(client);
+                    // receive callback from swish
+                    // stage 5
+                    Console.WriteLine("Swish callback");
 
-                    Console.WriteLine("faktiskt fungerar");
-                    SendDummySwishRequest();
+					// json parsing
+					JsonDocument jd = JsonDocument.Parse(msg);
+					string token = jd.RootElement.GetProperty("token").GetString();
+
+                    foreach (Client c in list)
+                    {
+                        if (c.Token == token)
+                        {
+                            c.SwishCallback(new DummySwishCallback(msg));
+                        }
+                    }
                 }
 
-            }
-
-            //  1. Ta emot betalningsförfrågningar från klienter
-            //  1.1  lagra betalningsförfrågningarna
-            //  2. Skapa payment request (swish api)
-            //  3. Ta emot bekräftelse från swish
-            //  4. Skicka till webbappen att öppna Swish med mottagen payment request token
-            //  5. Väntar på en callback/bekräftelse från Swish.
-            //  6. Skicka bekräftelse till webapp och köket.
-        }
-        static async void SendDummySwishRequest()
-        {
-            HttpClient client = new HttpClient();
-            HttpRequestMessage req_msg = new HttpRequestMessage(HttpMethod.Put, "http://localhost:9001");
-
-            IPAddress[] myIPs = Dns.GetHostAddresses(Dns.GetHostName());
-            string myIP = myIPs[1].ToString();
-			Console.WriteLine("myIp: " + myIP);
-            req_msg.Content = new ByteArrayContent(Encoding.ASCII.GetBytes(myIP));
-            try
-            {
-                HttpResponseMessage msg = await client.SendAsync(req_msg);
-                msg.EnsureSuccessStatusCode();
-                string msgBody = await msg.Content.ReadAsStringAsync();
-                Console.WriteLine(msgBody);
-            }
-            catch (Exception)
-            {
-
-                throw;
+                // cleanup client objects
+                List<Client> remove_list = new List<Client>();
+                foreach (Client c in list)
+                    if (c.IsDone)
+                        remove_list.Add(c);
+                foreach (Client c in remove_list)
+                    list.Remove(c);
+                    
             }
         }
     }

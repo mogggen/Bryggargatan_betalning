@@ -47,7 +47,7 @@ void receive_http_request(SOCKET client_socket, int token)
 
         char content[2048];
         char response_msg[2048];
-        sprintf(content, "{\"AmILegitSwish\":\"Yes\", \"token\":%d}", token);
+        sprintf(content, "{\"AmILegitSwish\":\"Yes\", \"token\":\"%d\"}", token);
         sprintf(response_msg, "HTTP/1.1 200 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
         int len = strlen(response_msg);
         send(client_socket, response_msg, len+1, 0);
@@ -58,7 +58,7 @@ int send_callback_msg(int token)
 {
     char content[2048];
     char callback_msg[2048];
-    sprintf(content, "{\"Bambozzeled\":\"Yes, yes you are.\", \"token\":%d}", token);
+    sprintf(content, "{\"Bambozzeled\":\"Yes, yes you are.\", \"token\":\"%d\", \"status\":\"PAID\"}\n", token);
     sprintf(callback_msg, "PUT / HTTP/1.1\nHost: localhost:9002\nContent-Length: %llu\n\n%s", strlen(content), content);
 
     printf("<> Sending callback\n");
@@ -134,7 +134,7 @@ int main(int argc, char** argv)
 
     struct LinkedList callback_jobs = {sizeof(struct CallbackWait), NULL}; 
 
-    int token_id = 0;
+    int token_id = 1;
 
     while(true)
     {
