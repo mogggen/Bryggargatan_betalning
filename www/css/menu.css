@@ -3,6 +3,7 @@ body
     background-color: ghostwhite;
     margin: 0 !important;
     padding: 0;
+    font-family: DIN;
 }
 
 /*LUNCHMENY header which consists of 3 paragraphs*/
@@ -16,8 +17,8 @@ body
     margin-top: 50px;
     text-align: center;
     border-bottom: 2px solid black;
-    font-size: 300%;
-    font-family: cursive;
+    font-size: 600%;
+    font-family: AmaticSC;
 }
 /*Class for all 3 paragraphs*/
 .menuHeadP
@@ -27,16 +28,15 @@ body
 #headerP
 {
     font-size: 250%;
-    font-weight: lighter;
 }
 #header2P
 {
-    font-family: monospace;
-    /*font-size: 25px;*/
+    font-family: HomemadeApple;
+    font-size: 55%;
 }
 #header3P
 {
-    /*font-size: 18px;*/
+    font-size: 125%;
 }
 
 
@@ -49,7 +49,7 @@ body
     text-align: center;
     width: 100%;
     min-height: 5%;
-    font-family: serif;
+    font-family: DIN;
 }
 
  .dish
@@ -60,22 +60,22 @@ body
 #dishTitle
 {
     margin: 0px;
-    margin-bottom: 3%;
-    font-size: 20px;
-    font-weight: bold;
+    margin-bottom: 1%;
+    font-size: 300%;
 }
 
 #desc
 {
     margin: 0px;
-    font-family: fantasy;
-    font-size: 18px;
+    font-family: DIN;
+    font-size: 280%;
 }
 
 #FO
 {
     color: olive;
     margin: 0px;
+    font-size: 200%;
 }
 
 
@@ -89,7 +89,7 @@ body
     text-align: center;
     border-bottom: 2px solid black;
     font-size: 300%;
-    font-family: cursive;
+    font-family: AmaticSC;
 }
 
 #dishesDiv

@@ -1,0 +1,31 @@
+@font-face
+{
+    font-family: DIN;
+    src: url(../Fonts/d-din/d-din.ttf);
+}
+@font-face
+{
+    font-family: DIN;
+    src: url(../Fonts/d-din/d-din-bold.ttf);
+    font-weight: bold;
+}
+
+
+@font-face
+{
+    font-family: AmaticSC;
+    src: url(../Fonts/amatic-sc/amaticsc-regular.ttf)
+}
+@font-face
+{
+    font-family: AmaticSC;
+    src: url(../Fonts/amatic-sc/amaticsc-bold.ttf);
+    font-weight: bold;
+}
+
+
+@font-face
+{
+    font-family: HomemadeApple;
+    src: url(../Fonts/homemade_apple/homemadeapple.ttf);
+}
