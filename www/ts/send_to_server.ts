@@ -48,6 +48,10 @@ function send_order_to_server()
         return;
     }
     
+    // don't send empty order
+    if(selectedItems.length <= 0)
+        return;
+
     let msg :string = order_to_xml();
     SendToServer(msg);
     
