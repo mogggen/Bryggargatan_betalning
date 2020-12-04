@@ -33,6 +33,7 @@ namespace PaymentServer
             this.first_response = first_response;
 
             this.is_done = false;
+
         }
 
         public async void SendSwishRequest()
@@ -84,6 +85,8 @@ namespace PaymentServer
         {
             // stage 6
 			second_response.send(second_response_send_msg);
+
+            EmailSender.SendEmail("Bord " + this.order.get_tablenumber(), this.order.toHTML());
 
             is_done = true;
         }

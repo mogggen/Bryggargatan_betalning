@@ -25,20 +25,13 @@ namespace PaymentServer
     //    4            <----------
     //    5            ---------->      <--------- 
     //    6            <----------
-    //       
-
-
-
-
-
-
-
-
+    //
 
     class Program
     {
         static void Main(string[] prefixes)
         {
+
             if (!HttpListener.IsSupported)
             {
                 Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
@@ -64,7 +57,8 @@ namespace PaymentServer
                 StreamReader sr = new StreamReader(input);
                 string msg = sr.ReadToEnd();
 
-                if (msg.Substring(0, 7) == "<order>")
+                if (msg.Length <= 0) { }
+                else if (msg.Substring(0, 7) == "<order>")
                 {
                     // receive order 
                     // stage 1
@@ -96,7 +90,7 @@ namespace PaymentServer
                         }
                     }
                 }
-                else if (msg != "")
+                else
                 {
                     // receive callback from swish
                     // stage 5
