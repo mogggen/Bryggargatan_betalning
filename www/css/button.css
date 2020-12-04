@@ -22,13 +22,17 @@
 
 .dishButton
 {
-    float: left;
+    margin: 0;
+    display: inline-block;
+    float: center;
 }
 
 .expandButton
 {
+    margin-top: 0;
+    display: inline-block;
     width: 80px;
-    float: right;
+    float: center;
 }
 
 .nonDishButton
