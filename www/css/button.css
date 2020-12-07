@@ -2,7 +2,7 @@
 {
     position: relative;
     overflow: auto;
-    width: 65%;
+    width: 565px;
     margin: auto;
 }
 
@@ -23,16 +23,14 @@
 .dishButton
 {
     margin: 0;
-    display: inline-block;
-    float: center;
+    float: left;
 }
 
 .expandButton
 {
     margin-top: 0;
-    display: inline-block;
     width: 80px;
-    float: center;
+    float: right;
 }
 
 .nonDishButton
