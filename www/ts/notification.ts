@@ -34,7 +34,7 @@ function displayNotificationDiv(select :SelectedItem, item_index: number) :void{
         notificationDiv.innerHTML += " GF";
     }
 
-    notificationDiv.innerHTML += "" + select.name + " ‧ tillagda.";
+    notificationDiv.innerHTML += "" + select.name + " ‧ tillagd.";
 
     displayNotification();
 
