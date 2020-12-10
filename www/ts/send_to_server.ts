@@ -12,8 +12,8 @@ function send_order_to_server()
     SendToServer(msg);
     
     //Reset tableid textbox for stylistic purposes
-    tableidInputObject.value = "";
-    phonenrInputObject.value = "";
+    //tableidInputObject.value = "";
+    //phonenrInputObject.value = "";
 }
 
 function SendToServer(msg: string)
@@ -73,6 +73,8 @@ function order_to_xml() :string
 
     xml += "<order>"
 
+    //xml += "<item name=\"ObiWan\"><milk_free/><gluten_free/><egg_free/><notes>Hello there! General Kenobi.</notes></item>";
+
     selectedItems.forEach((it) => {
 
         let item_content :string = "";
@@ -94,6 +96,7 @@ function order_to_xml() :string
 
         total_price += it.price;
     });
+
 
     xml += "<price>" + total_price + "</price>";
     xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableidInput")).value + "</tableid>";

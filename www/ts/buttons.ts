@@ -1,6 +1,7 @@
-function create_add_button_html(dish_name :string, price :number): string
+function create_add_button_html(item: MenuItem): string
 {
-    return "<div class=\"button nonDishButton\" onclick=\"add_button_callback('" + dish_name + "','" + price.toString() + "');\">Lägg till</div>"
+    let item_index :number = menuItems.indexOf(item);
+    return "<div class=\"button nonDishButton\" onclick=\"add_button_callback('" + item_index + "');\">Lägg till</div>"
 }
 
 function create_add_dish_buttons_html(dish :Dish): string
@@ -18,14 +19,13 @@ function create_add_dish_buttons_html(dish :Dish): string
     "</div>";
 }
 
-function add_button_callback(dish_name :string, price :string) :void
+function add_button_callback(item_index: number) :void
 {
-    console.log("added " + dish_name + " " + price.toString());
+    let item :MenuItem = menuItems[item_index] as MenuItem;
     
-    document.getElementById("notificationDiv").innerHTML = "added " + dish_name + " " + price.toString();
-    displayNotificationDiv();
-    
-    selectedItems.push(new SelectedItem( dish_name, +price, false, false, false ));
+    var temp = new SelectedItem(item.name, +item.price,false, false, false);
+    displayNotificationDiv(temp, item_index);
+    selectedItems.push(temp);
     console.log(selectedItems);
     update_order_summary();
 }
@@ -39,9 +39,17 @@ function add_dish_button_callback(dish_index :number) :void
     let mf = (<HTMLInputElement>document.getElementsByName("MF")[dish_index]);
     let gf = (<HTMLInputElement>document.getElementsByName("GF")[dish_index]);
     
-    console.log("added " + dish.name + " " + dish.price.toString());
-    selectedItems.push(new SelectedItem( dish.name, +dish.price, ef.checked, mf.checked, gf.checked )); //HTMLInputElement.checked returns true or false
+    var temp = new SelectedItem(
+    dish.name, +dish.price,
+    ef.checked && !ef.disabled,
+    mf.checked && !mf.disabled,
+    gf.checked && !gf.disabled);
+    
+    displayNotificationDiv(temp, dish_index);
+    
+    selectedItems.push(temp);
     console.log(selectedItems);
+    
     update_order_summary();
 }
 

@@ -25,7 +25,7 @@ class MenuItem{
         var menuItemString;
         menuItemString = "<div class=\"menuItem\">" + '<div id="nonDishTitle">' + this.name + " ‧ " + 
             this.price.toString() + "</div>";
-        menuItemString += create_add_button_html(this.name, this.price);
+        menuItemString += create_add_button_html(this);
         menuItemString += "</div>";
         return menuItemString;
     }

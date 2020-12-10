@@ -1,12 +1,12 @@
 @font-face
 {
     font-family: DIN;
-    src: url(../Fonts/d-din/d-din.ttf);
+    src: url(../Fonts/d-din/D-DIN.ttf);
 }
 @font-face
 {
     font-family: DIN;
-    src: url(../Fonts/d-din/d-din-bold.ttf);
+    src: url(../Fonts/d-din/D-DIN-Bold.ttf);
     font-weight: bold;
 }
 
@@ -14,12 +14,12 @@
 @font-face
 {
     font-family: AmaticSC;
-    src: url(../Fonts/amatic-sc/amaticsc-regular.ttf)
+    src: url(../Fonts/amatic-sc/AmaticSC-Regular.ttf)
 }
 @font-face
 {
     font-family: AmaticSC;
-    src: url(../Fonts/amatic-sc/amaticsc-bold.ttf);
+    src: url(../Fonts/amatic-sc/AmaticSC-Bold.ttf);
     font-weight: bold;
 }
 
@@ -27,5 +27,5 @@
 @font-face
 {
     font-family: HomemadeApple;
-    src: url(../Fonts/homemade_apple/homemadeapple.ttf);
+    src: url(../Fonts/homemade_apple/HomemadeApple.ttf);
 }
