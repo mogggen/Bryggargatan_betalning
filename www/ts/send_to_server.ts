@@ -1,57 +1,13 @@
 function send_order_to_server()
 {
-    var numberOfTables = 10;
-    var errorColor = "rgb(250, 160, 160)";
+    //Call to visually show customer we sent the order
+    addPopupWaitingForSwishContent();
     
     var tableidInputObject =
         <HTMLInputElement>document.getElementById("tableidInput");
-    var tableidInputPromptObject =
-        <HTMLDivElement>document.getElementById("tableidpromptDiv");
-    
     var phonenrInputObject =
         <HTMLInputElement>document.getElementById("phonenrInput");
-    var phonenrInputPromptObject =
-        <HTMLDivElement>document.getElementById("phonenrpromptDiv");
     
-    var invalidphonenr = phonenrInputObject.value === ""
-        || phonenrInputObject.value.length < 10
-        || !(+phonenrInputObject.value);
-    //OBS Add check for if value is not a number!!!
-    
-    var invalidtableid = tableidInputObject.value === "" 
-        || Number(tableidInputObject.value) > numberOfTables
-        || !(+tableidInputObject.value);
-    //OBS Add check for if value is not a number!!!
-    
-    //Making sure table number is a number within range
-    if(invalidtableid){
-        tableidInputObject.style.background = errorColor;
-        tableidInputPromptObject.style.display = "inline";
-    }
-    else{
-        tableidInputObject.style.background = "white";
-        tableidInputPromptObject.style.display = "none";
-    }
-    
-    //Making sure phone number is at least a 10 digit number
-    if(invalidphonenr){
-        phonenrInputObject.style.background = errorColor;
-        phonenrInputPromptObject.style.display = "inline";
-    }
-    else{
-        phonenrInputObject.style.background = "white";
-        phonenrInputPromptObject.style.display = "none";
-    }
-    
-    //make sure the function only continues with valid data
-    if (invalidtableid || invalidphonenr){
-        return;
-    }
-    
-    // don't send empty order
-    if(selectedItems.length <= 0)
-        return;
-
     let msg :string = order_to_xml();
     SendToServer(msg);
     
