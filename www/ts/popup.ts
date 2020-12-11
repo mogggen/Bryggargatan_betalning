@@ -60,17 +60,23 @@ function addAreYouSureContent(){
                 
         "</div>"+
         "<div class=\"popupClass\" id=\"popupDiv\">"+
-            "<div id=\"closeButtonHolder\" onclick=\"removeAreYouSureContent();\">"+
-                "<div class=\"mdiv\">"+
-                    "<div class=\"md\"></div>"+
+                //"<p id=\"areYouSureP\"> Vill du ha kvitto till din beställing? </p>"+
+            "<div id=\"receiptCheckDiv\">"+
+                "<div id=\"receiptBoxDiv\">"+
+                    "<label id=\"receiptBoxLabel\" for=\"receiptBox\">Bocka i för kvitto:</label>"+
+                    "<input type=\"checkbox\" id=\"receiptBox\" name=\"receiptBox\" onclick=\"toggleEmailInput(this)\">"+
                 "</div>"+
+                    "<input type=\"email\" inputmode=\"email\" id=\"emailInput\" name=\"email\">"+
+                    "<div id=\"emailpromptDiv\" style=\"display: none;\">"+
+                        "<label>* Ange E-post adress</label>"+
+                    "</div>"+
             "</div>"+
-                "<p id=\"areYouSureP\"> Är du säker? </p>"+
             "<div class=\"dishButtonContainer\" id=\"sureButtonContainer\">"+
                 "<div class=\"button\" id=\"confirmButton\" onclick=\"send_order_to_server();\">Betala</div>"+
                 "<div class=\"button\" id=\"declineButton\" onclick=\"removeAreYouSureContent();\">Avbryt</div>"+
             "</div>"+
         "</div>";
+    
 }
 
 function removeAreYouSureContent(){
@@ -113,4 +119,16 @@ function addPopupWaitingForUserContent(){
     
     // Öppna Swish här!
     
+}
+
+function toggleEmailInput(emailBox:HTMLInputElement){
+    let emailInput = document.getElementById("emailInput");
+    let emailPromptDiv = document.getElementById("emailpromptDiv");
+    if(emailBox.checked === true){
+        emailInput.style.visibility = "visible";
+        emailPromptDiv.style.display = "block";
+    }else{
+        emailInput.style.visibility = "collapse";
+        emailPromptDiv.style.display = "none";
+    }
 }

@@ -1,7 +1,22 @@
 function send_order_to_server()
 {
-    //Call to visually show customer we sent the order
-    addPopupWaitingForSwishContent();
+    //Checking if customer wants an email receipt as well as if they entered their email in the case that they do.
+    let emailCheckBox = <HTMLInputElement>document.getElementById("receiptBox");
+    if(emailCheckBox.checked){
+        var emailInputObject = <HTMLInputElement>document.getElementById("emailInput");
+        var emailInputPromptObject = <HTMLInputElement>document.getElementById("emailpromptDiv");
+    
+        var invalidemail = emailInputObject.value === "" || emailInputObject.value.length <= 4;
+    
+        if(invalidemail){
+            emailInputObject.style.background = "rgb(250, 160, 160)";
+            emailInputPromptObject.innerHTML = "* Ogiltigt E-post adress";
+            return;
+        }else{
+            emailInputObject.style.background = "white";
+        }
+    }
+    
     
     var tableidInputObject =
         <HTMLInputElement>document.getElementById("tableidInput");
@@ -11,9 +26,12 @@ function send_order_to_server()
     let msg :string = order_to_xml();
     SendToServer(msg);
     
+    //Call to visually show customer we sent the order
+    addPopupWaitingForSwishContent();
+    
     //Reset tableid textbox for stylistic purposes
-    //tableidInputObject.value = "";
-    //phonenrInputObject.value = "";
+    tableidInputObject.value = "";
+    phonenrInputObject.value = "";
 }
 
 function SendToServer(msg: string)
@@ -65,6 +83,7 @@ function order_to_xml() :string
     //    <price>1000</price>
     //    <tableid>7</tableid>
     //    <phonenr>0701234567</phonenr>
+    //    <email>harry.hedman@gmail.com</email>
     //</order>
 
     let xml :string = "";
@@ -101,6 +120,11 @@ function order_to_xml() :string
     xml += "<price>" + total_price + "</price>";
     xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableidInput")).value + "</tableid>";
     xml += "<phonenr>" + (<HTMLInputElement>document.getElementById("phonenrInput")).value + "</phonenr>";
+    if((<HTMLInputElement>document.getElementById("receiptBox")).checked){
+        xml += "<email>" + (<HTMLInputElement>document.getElementById("emailInput")).value + "</email>";
+    }else{
+        xml += "<email></email>";
+    }
     xml += "</order>";
 
     console.log(xml);
