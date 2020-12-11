@@ -14,8 +14,14 @@
         <link rel="stylesheet" href="css/phonenrprompt.css">
         <link rel="stylesheet" href="css/fonts.css">
         <link rel="stylesheet" href="css/notification.css">
+        <link rel="stylesheet" href="css/popup.css">
     </head>
     <body onload="onStartUp();">
+        
+        <div class="popupClass" id="popupHolderDiv">
+            
+        </div>
+        
         <div id="menuHead">
             <p class="menuHeadP" id="headerP">LUNCHMENY <br></p>
             <p class="menuHeadP" id="header2P">tisdag - fredag <br></p>
@@ -48,8 +54,8 @@
             <label>* Felaktigt telefonnummer (minst 10 siffror, landsnummret ska anges för utländska telefonnummer)</label>
         </div>
         
-        <!--<div id="notificationDiv"><label>sosoe</label></div>-->
+        <div id="notificationDiv"></div>
         
-        <div class="button" id="orderButton" onclick="send_order_to_server();">Beställ</div>
+        <div class="button" id="orderButton" onclick="addAreYouSureContent();">Beställ</div>
     </body>
 </html>

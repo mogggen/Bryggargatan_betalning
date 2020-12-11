@@ -19,6 +19,10 @@
     margin-top: 5px;
     font-size: 40px;
 }
+.button:active
+{
+    background-color: #b6b997;
+}
 
 .dishButton
 {
@@ -28,6 +32,7 @@
 
 .expandButton
 {
+    padding: 3.3%;
     margin-top: 0;
     width: 80px;
     float: right;
