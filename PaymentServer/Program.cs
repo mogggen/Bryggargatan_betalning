@@ -31,25 +31,40 @@ namespace PaymentServer
     {
         static void Main(string[] prefixes)
         {
-
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             if (!HttpListener.IsSupported)
             {
                 Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
                 return;
             }
 
-            if (prefixes == null || prefixes.Length == 0)
-                throw new ArgumentException("ArgumentError: No prefixes given as an argument in Main().");
+            //if (prefixes == null || prefixes.Length == 0)
+            //    throw new ArgumentException("ArgumentError: No prefixes given as an argument in Main().");
 
             HttpListener listener = new HttpListener();
-            
+
             foreach (string s in prefixes)
+            {
                 listener.Prefixes.Add(s);
+                DummySwishRequest.callback_url = s;
+            }
+
+            //listener.Prefixes.Add("http://+:9002/");
+            //string hostname = Dns.GetHostName();
+            //var addr = Dns.GetHostEntry(hostname).AddressList[0];
+            ////addr = addr.MapToIPv4();
+            //string IP = addr.ToString();
+            ////IP = IP.Substring(0, IP.Length - 2);
+            //listener.Prefixes.Add("https://["+IP+"]:9002/");
+			//Console.WriteLine(hostname);
+			//Console.WriteLine(IP);
+
+
             List<Client> list = new List<Client>();
+			listener.Start();
+
             while (true)
             {                
-                listener.Start();
-
                 HttpListenerContext context = listener.GetContext(); // Note: The GetContext method blocks while waiting for a request.
                 HttpListenerRequest request = context.Request;
 
@@ -57,7 +72,9 @@ namespace PaymentServer
                 StreamReader sr = new StreamReader(input);
                 string msg = sr.ReadToEnd();
 
-                if (msg.Length <= 0) { }
+				Console.WriteLine("Received request");
+
+				if (msg.Length <= 0) { Console.WriteLine("zero length"); }
                 else if (msg.Substring(0, 7) == "<order>")
                 {
                     // receive order 

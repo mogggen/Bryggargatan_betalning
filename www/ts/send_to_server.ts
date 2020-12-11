@@ -60,25 +60,40 @@ function send_order_to_server()
     //phonenrInputObject.value = "";
 }
 
+// Example of recieve values on success
+//      <client status="true"><id>7</id><token>1234567890</token></client>
+//
+// Example of recieve values on failure
+//      <client status="false"><errormsg>Error message</errormsg></client>
+//
+
 function SendToServer(msg: string)
 {
     const http = new XMLHttpRequest();
+    //const url = "http://130.240.54.162:9002";
     const url = "http://localhost:9002";
     http.open("POST", url);
+    //http.setRequestHeader("Access-Control-Allow-Origin", "*");
     http.send(msg);
     http.onreadystatechange = () =>  {
         if(http.readyState === 4)
         {
-            if(http.status === 200 || http.status == 0)
+            if(http.status === 200 || http.status === 0)
             {
                 console.log("response: " + http.response);
                 const http2 = new XMLHttpRequest();
                 http2.open("POST", url);
+                if(http.responseXML.getElementsByTagName("client")[0].getAttribute("status") === "false")
+                {
+                    console.log("server error");
+                    console.log(http.responseXML.getElementsByTagName("errormsg")[0].textContent);
+                    return;
+                }
                 http2.send(http.response);
                 http2.onreadystatechange = () =>  {
                     if(http2.readyState === 4)
                     {
-                        if(http2.status === 200 || http2.status == 0)
+                        if(http2.status === 200 || http2.status === 0)
                         {
                             console.log("response: " + http2.response);
                         }

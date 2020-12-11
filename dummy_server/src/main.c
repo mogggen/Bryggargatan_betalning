@@ -1,6 +1,17 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "socket.h"
 #include "linked_list.h"
+#include "jsmn.h"
+
+static int jsoneq(const char *json, jsmntok_t *tok, const char *s) {
+  if (tok->type == JSMN_STRING && (int)strlen(s) == tok->end - tok->start &&
+      strncmp(json + tok->start, s, tok->end - tok->start) == 0) {
+    return 0;
+  }
+  return -1;
+}
 
 #define BUF_SIZE 4096
 
@@ -45,10 +56,32 @@ void receive_http_request(SOCKET client_socket, int token)
         buf[i] = '\0';
         printf("%s\n", buf);
 
+        // parse message
+        jsmn_parser parser;
+        jsmntok_t tokens[128];
+        jsmn_init(&parser);
+
+        int r = jsmn_parse(&parser, buf, i, tokens, 128);
+        if(r >= 0) 
+        {
+            for(int i=1; i < r; i++)
+            {
+                if (jsoneq(buf, &tokens[i], "callbackUrl") == 0)
+                {
+                    jsmntok_t token = tokens[i+1];
+                    printf("Callback url: %.*s\n", token.end-token.start, buf+token.start);
+                }
+            }
+        }
+
+        
+
         char content[2048];
         char response_msg[2048];
-        sprintf(content, "{\"AmILegitSwish\":\"Yes\", \"token\":\"%d\"}", token);
-        sprintf(response_msg, "HTTP/1.1 200 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
+        //sprintf(content, "{\"AmILegitSwish\":\"Yes\", \"PaymentRequestToken\":\"%d\"}", token);
+        //sprintf(response_msg, "HTTP/1.1 200 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
+        sprintf(content, "{\"errorCode\":\"RP03\", \"errorMessage\":\"Callback URL is missing or does not use HTTPS.\", \"additionalInformation\":\"\"}");
+        sprintf(response_msg, "HTTP/1.1 422 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
         int len = strlen(response_msg);
         send(client_socket, response_msg, len+1, 0);
     }

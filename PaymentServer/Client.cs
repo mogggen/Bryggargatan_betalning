@@ -52,11 +52,13 @@ namespace PaymentServer
 
                 // send first response
                 // stage 4
-                first_response.send("<client><id>" + id + "</id><token>" + token.Value + "</token></client>\n");
+                first_response.send("<client status=\"true\"><id>" + id + "</id><token>" + token.Value + "</token></client>\n");
             }
             else
             {
                 // ERROR
+                first_response.send("<client status=\"false\"><errormsg>" + token.Value + "</errormsg></client>\n");
+                is_done = true;
             }
         }
 
