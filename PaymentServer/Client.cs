@@ -97,7 +97,7 @@ namespace PaymentServer
 
             if (successfull_payment)
             {
-				EmailSender.SendEmail("Bord " + this.order.get_tablenumber(), this.order.toHTML());
+				EmailSender.SendEmail("Bord " + this.order.get_tablenumber(), this.order.toRecipt());
             }
 
             is_done = true;

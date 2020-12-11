@@ -17,13 +17,13 @@ namespace PaymentServer
 
 		public void send(string msg)
 		{
-            http_response.AppendHeader("Access-Control-Allow-Origin", "*");
-            Stream output = http_response.OutputStream;
-            output.Write(Encoding.UTF8.GetBytes(msg));
-            output.Dispose();
+			http_response.AppendHeader("Access-Control-Allow-Origin", "*");
+			Stream output = http_response.OutputStream;
+			output.Write(Encoding.UTF8.GetBytes(msg));
+			output.Dispose();
 
-            //send
-            http_response.Close();
+			//send
+			http_response.Close();
 		}
 	}
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace PaymentServer
 {
-	class DummySwishRequest
-	{
+    class DummySwishRequest
+    {
         float amount;
         string phone_number;
 
@@ -34,12 +34,12 @@ namespace PaymentServer
             return payload_sb.ToString();
         }
 
-		public async Task<Result<string>> Send()
-		{
+        public async Task<Result<string>> Send()
+        {
             HttpClient client = new HttpClient();
             HttpRequestMessage req_msg = new HttpRequestMessage(HttpMethod.Put, "http://localhost:9001");
 
-            string send_msg = CreateMsgString(); 
+            string send_msg = CreateMsgString();
             req_msg.Content = new ByteArrayContent(Encoding.ASCII.GetBytes(send_msg));
             string token;
             HttpResponseMessage msg = null;

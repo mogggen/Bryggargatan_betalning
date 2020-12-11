@@ -11,12 +11,12 @@ using System.Xml;
 namespace PaymentServer
 {
 
-	//  1. Ta emot betalningsförfrågningar från klienter
-	//  2. Skapa payment request (swish api)
-	//  3. Ta emot bekräftelse från swish
-	//  4. Skicka till webbappen att öppna Swish med mottagen payment request token (first response)
-	//  5. Väntar på en callback/bekräftelse från Swish och andra meddelandet från webbappen.
-	//  6. Skicka bekräftelse till webapp och köket. (second response)
+    //  1. Ta emot betalningsförfrågningar från klienter
+    //  2. Skapa payment request (swish api)
+    //  3. Ta emot bekräftelse från swish
+    //  4. Skicka till webbappen att öppna Swish med mottagen payment request token (first response)
+    //  5. Väntar på en callback/bekräftelse från Swish och andra meddelandet från webbappen.
+    //  6. Skicka bekräftelse till webapp och köket. (second response)
     //
     //  stage      WebApp          Server          Swish
     //    1            ---------->                              
@@ -64,7 +64,6 @@ namespace PaymentServer
 			listener.Start();
 
             while (true)
-            {                
                 HttpListenerContext context = listener.GetContext(); // Note: The GetContext method blocks while waiting for a request.
                 HttpListenerRequest request = context.Request;
 
@@ -113,9 +112,9 @@ namespace PaymentServer
                     // stage 5
                     Console.WriteLine("Swish callback");
 
-					// json parsing
-					JsonDocument jd = JsonDocument.Parse(msg);
-					string token = jd.RootElement.GetProperty("token").GetString();
+                    // json parsing
+                    JsonDocument jd = JsonDocument.Parse(msg);
+                    string token = jd.RootElement.GetProperty("token").GetString();
 
                     foreach (Client c in list)
                     {
@@ -133,7 +132,7 @@ namespace PaymentServer
                         remove_list.Add(c);
                 foreach (Client c in remove_list)
                     list.Remove(c);
-                    
+
             }
         }
     }

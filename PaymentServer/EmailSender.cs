@@ -18,7 +18,7 @@ namespace PaymentServer
 				MailMessage message = new MailMessage();
 				SmtpClient smtp = new SmtpClient();
 				message.From = new MailAddress("maglii-9@student.ltu.se");
-				message.To.Add(new MailAddress("maglii-9@student.ltu.se"));
+				message.To.Add(new MailAddress("mornym-9@student.ltu.se"));
 				message.Subject = subject;
 				message.IsBodyHtml = true;
 				message.Body = msg;
