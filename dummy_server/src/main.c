@@ -78,10 +78,10 @@ void receive_http_request(SOCKET client_socket, int token)
 
         char content[2048];
         char response_msg[2048];
-        //sprintf(content, "{\"AmILegitSwish\":\"Yes\", \"PaymentRequestToken\":\"%d\"}", token);
-        //sprintf(response_msg, "HTTP/1.1 200 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
-        sprintf(content, "{\"errorCode\":\"RP03\", \"errorMessage\":\"Callback URL is missing or does not use HTTPS.\", \"additionalInformation\":\"\"}");
-        sprintf(response_msg, "HTTP/1.1 422 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
+        sprintf(content, "{\"AmILegitSwish\":\"Yes\", \"PaymentRequestToken\":\"%d\"}", token);
+        sprintf(response_msg, "HTTP/1.1 200 OK\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
+        //sprintf(content, "{\"errorCode\":\"RP03\", \"errorMessage\":\"Callback URL is missing or does not use HTTPS.\", \"additionalInformation\":\"\"}");
+        //sprintf(response_msg, "HTTP/1.1 422\nServer: MeMyselfAndI\nAccess-Control-Allow-Origin: *\nContent-Type: text/plain;charset=UTF-8\nContent-Length: %llu\nConnection: close\n\n%s", strlen(content), content);
         int len = strlen(response_msg);
         send(client_socket, response_msg, len+1, 0);
     }
@@ -91,7 +91,7 @@ int send_callback_msg(int token)
 {
     char content[2048];
     char callback_msg[2048];
-    sprintf(content, "{\"Bambozzeled\":\"Yes, yes you are.\", \"token\":\"%d\", \"status\":\"PAID\"}\n", token);
+    sprintf(content, "{\"Bambozzeled\":\"Yes, yes you are.\", \"token\":\"%d\", \"status\":\"DECLINED\"}\n", token);
     sprintf(callback_msg, "PUT / HTTP/1.1\nHost: localhost:9002\nContent-Length: %llu\n\n%s", strlen(content), content);
 
     printf("<> Sending callback\n");

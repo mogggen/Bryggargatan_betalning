@@ -106,3 +106,13 @@
   transform: rotate(90deg);
   Z-index: 2;
 }
+
+#errorMsg
+{
+    font-size: 200%;
+    background-color: #eab2b2;
+}
+#successMsg
+{
+    font-size: 200%;
+}

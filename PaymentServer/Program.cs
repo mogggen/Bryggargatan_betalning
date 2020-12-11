@@ -85,7 +85,7 @@ namespace PaymentServer
                     client.SendSwishRequest();
                     Console.WriteLine("New client");
                 }
-                else if (msg.Substring(0, 8) == "<client>")
+                else if (msg.Substring(0, 7) == "<client")
                 {
                     // receieve second message from webapp
                     // stage 5

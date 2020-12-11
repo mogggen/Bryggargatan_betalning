@@ -87,16 +87,6 @@ function addPopupWaitingForSwishContent(){
     popupDiv.innerHTML = "";
     popupDiv.innerHTML += "<p id=\"waitingForSwishP\"> Inväntar svar från Swish </p>";
     popupDiv.innerHTML += "<div class=\"loader\"></div>";
-    
-    //Call addPopupWaitingForUserContent() when Swish gives the OK
-    (async () => { 
-        
-        //Simulating Swish callback
-        await delay(5000);
-    
-        addPopupWaitingForUserContent();
-    })();
-    
 }
 
 function addPopupWaitingForUserContent(){
@@ -113,4 +103,37 @@ function addPopupWaitingForUserContent(){
     
     // Öppna Swish här!
     
+}
+
+function addPopupSuccessMessage(){
+    
+    // if pressed close
+    let popupOverlayDiv = document.getElementById("popupOverlayDiv");
+    if(!popupOverlayDiv.attributes.getNamedItem("onclick")){
+        let attr = document.createAttribute("onclick");
+        attr.value = "removeAreYouSureContent();"
+        popupOverlayDiv.attributes.setNamedItem(attr);
+    }
+
+    let popupDiv = document.getElementById("popupDiv");
+    popupDiv.innerHTML = "";
+    popupDiv.innerHTML += "<p id=\"waitingForSwishP\"> Betalning genomförd </p>";
+    popupDiv.innerHTML += "<p id=\"successMsg\">Köket har nu tagit emot din beställning</p>";
+    popupDiv.innerHTML += "<div class=\"button\" onclick=\"removeAreYouSureContent();\">Stäng</div>";
+}
+function addPopupErrorMessage(error_msg :string){
+    
+    // if pressed close
+    let popupOverlayDiv = document.getElementById("popupOverlayDiv");
+    if(!popupOverlayDiv.attributes.getNamedItem("onclick")){
+        let attr = document.createAttribute("onclick");
+        attr.value = "removeAreYouSureContent();"
+        popupOverlayDiv.attributes.setNamedItem(attr);
+    }
+
+    let popupDiv = document.getElementById("popupDiv");
+    popupDiv.innerHTML = "";
+    popupDiv.innerHTML += "<p id=\"waitingForSwishP\"> Lyckades inte genomföra betalningen </p>";
+    popupDiv.innerHTML += "<p id=\"errorMsg\">" + error_msg + "</p>";
+    popupDiv.innerHTML += "<div class=\"button\" onclick=\"removeAreYouSureContent();\">Stäng</div>";
 }

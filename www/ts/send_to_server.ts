@@ -9,7 +9,7 @@ function send_order_to_server()
         <HTMLInputElement>document.getElementById("phonenrInput");
     
     let msg :string = order_to_xml();
-    SendToServer(msg);
+    send_message_to_server(msg, send_order_callback);
     
     //Reset tableid textbox for stylistic purposes
     //tableidInputObject.value = "";
@@ -23,7 +23,69 @@ function send_order_to_server()
 //      <client status="false"><errormsg>Error message</errormsg></client>
 //
 
-function SendToServer(msg: string)
+function send_order_callback(success :boolean, http :XMLHttpRequest)
+{
+    if(!success)
+    {
+        console.log("Failed to connect to server.");
+        return;
+    }
+
+
+    console.log("response: " + http.response);
+    if(http.responseXML.getElementsByTagName("client")[0].getAttribute("status") === "false")
+    {
+        console.log("server error");
+        let err_msg :string = http.responseXML.getElementsByTagName("errormsg")[0].textContent;
+        console.log(err_msg);
+
+        addPopupErrorMessage(err_msg);
+        return;
+    }
+
+    addPopupWaitingForUserContent();
+    send_message_to_server(http.response, second_send_callback);
+}
+
+function second_send_callback(success :boolean, http :XMLHttpRequest)
+{
+    if(!success)
+    {
+        console.log("Falied to connect to server")
+        return;
+    }
+
+    
+    console.log("response: " + http.response);
+    let status :string = http.responseXML.getElementsByTagName("status")[0].textContent;
+
+    switch(status)
+    {
+        case "PAID":
+        { 
+            console.log("Payment successful");
+            addPopupSuccessMessage();
+        } break;
+        case "DECLINED":
+        {
+            console.log("Payment declined");
+            addPopupErrorMessage("Betalning avbruten");
+        } break;
+        case "ERROR":
+        {
+            console.log("Swish error");
+            addPopupErrorMessage("");
+        } break;
+        case "CREATED":
+        {
+            // This should never happen
+            console.log("Swish error");
+            addPopupErrorMessage("");
+        } break;
+    }
+}
+
+function send_message_to_server(msg: string, callback_func :(success :boolean, http :XMLHttpRequest) => void)
 {
     const http = new XMLHttpRequest();
     //const url = "http://130.240.54.162:9002";
@@ -32,34 +94,20 @@ function SendToServer(msg: string)
     //http.setRequestHeader("Access-Control-Allow-Origin", "*");
     http.send(msg);
     http.onreadystatechange = () =>  {
+
         if(http.readyState === 4)
         {
             if(http.status === 200 || http.status === 0)
             {
-                console.log("response: " + http.response);
-                const http2 = new XMLHttpRequest();
-                http2.open("POST", url);
-                if(http.responseXML.getElementsByTagName("client")[0].getAttribute("status") === "false")
-                {
-                    console.log("server error");
-                    console.log(http.responseXML.getElementsByTagName("errormsg")[0].textContent);
-                    return;
-                }
-                http2.send(http.response);
-                http2.onreadystatechange = () =>  {
-                    if(http2.readyState === 4)
-                    {
-                        if(http2.status === 200 || http2.status === 0)
-                        {
-                            console.log("response: " + http2.response);
-                        }
-                    }
-                };
+                callback_func(true, http);
+                return;
             }
+            callback_func(false, null);
         }
         
     };
 }
+
 
 function order_to_xml() :string
 {
