@@ -54,7 +54,16 @@ function update_order_summary() :void
     let index :number = 0;
     selectedItems.forEach((it) => 
     {
-        let name :string = string_max_width(it.name, 23);
+
+        let text :string = it.name;
+        if(it.milk_free)
+            text += ", MF";
+        if(it.gluten_free)
+            text += ", GF";
+        if(it.egg_free)
+            text += ", ÄF";
+
+        let name :string = string_max_width(text, 27);
 
         summary_html += '<div class="summaryElement"><p class="summaryElementName">' + name + 
                         '</p><div class=\"button removeItemButton\" onclick=\"remove_item_button_callback(' + index.toString() + 
