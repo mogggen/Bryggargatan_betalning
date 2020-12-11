@@ -51,11 +51,9 @@ function displayNotification()
 {
     var that = (<HTMLDivElement>document.getElementById("notificationDiv"));
     (async () => {
-        that.style.visibility = "inline";
         that.classList.add("notificationFade");
         await delay(3000);
         that.classList.remove("notificationFade");
         await delay(3000);
-        that.style.display = "none";
     })();
 }
