@@ -11,12 +11,12 @@ using System.Xml;
 namespace PaymentServer
 {
 
-	//  1. Ta emot betalningsförfrågningar från klienter
-	//  2. Skapa payment request (swish api)
-	//  3. Ta emot bekräftelse från swish
-	//  4. Skicka till webbappen att öppna Swish med mottagen payment request token (first response)
-	//  5. Väntar på en callback/bekräftelse från Swish och andra meddelandet från webbappen.
-	//  6. Skicka bekräftelse till webapp och köket. (second response)
+    //  1. Ta emot betalningsförfrågningar från klienter
+    //  2. Skapa payment request (swish api)
+    //  3. Ta emot bekräftelse från swish
+    //  4. Skicka till webbappen att öppna Swish med mottagen payment request token (first response)
+    //  5. Väntar på en callback/bekräftelse från Swish och andra meddelandet från webbappen.
+    //  6. Skicka bekräftelse till webapp och köket. (second response)
     //
     //  stage      WebApp          Server          Swish
     //    1            ---------->                              
@@ -31,25 +31,39 @@ namespace PaymentServer
     {
         static void Main(string[] prefixes)
         {
-
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             if (!HttpListener.IsSupported)
             {
                 Console.WriteLine("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
                 return;
             }
 
-            if (prefixes == null || prefixes.Length == 0)
-                throw new ArgumentException("ArgumentError: No prefixes given as an argument in Main().");
+            //if (prefixes == null || prefixes.Length == 0)
+            //    throw new ArgumentException("ArgumentError: No prefixes given as an argument in Main().");
 
             HttpListener listener = new HttpListener();
-            
-            foreach (string s in prefixes)
-                listener.Prefixes.Add(s);
-            List<Client> list = new List<Client>();
-            while (true)
-            {                
-                listener.Start();
 
+            foreach (string s in prefixes)
+            {
+                listener.Prefixes.Add(s);
+                DummySwishRequest.callback_url = s;
+            }
+
+            //listener.Prefixes.Add("http://+:9002/");
+            //string hostname = Dns.GetHostName();
+            //var addr = Dns.GetHostEntry(hostname).AddressList[0];
+            ////addr = addr.MapToIPv4();
+            //string IP = addr.ToString();
+            ////IP = IP.Substring(0, IP.Length - 2);
+            //listener.Prefixes.Add("https://["+IP+"]:9002/");
+			//Console.WriteLine(hostname);
+			//Console.WriteLine(IP);
+
+
+            List<Client> list = new List<Client>();
+			listener.Start();
+
+            while (true)
                 HttpListenerContext context = listener.GetContext(); // Note: The GetContext method blocks while waiting for a request.
                 HttpListenerRequest request = context.Request;
 
@@ -57,7 +71,9 @@ namespace PaymentServer
                 StreamReader sr = new StreamReader(input);
                 string msg = sr.ReadToEnd();
 
-                if (msg.Length <= 0) { }
+				Console.WriteLine("Received request");
+
+				if (msg.Length <= 0) { Console.WriteLine("zero length"); }
                 else if (msg.Substring(0, 7) == "<order>")
                 {
                     // receive order 
@@ -68,7 +84,7 @@ namespace PaymentServer
                     client.SendSwishRequest();
                     Console.WriteLine("New client");
                 }
-                else if (msg.Substring(0, 8) == "<client>")
+                else if (msg.Substring(0, 7) == "<client")
                 {
                     // receieve second message from webapp
                     // stage 5
@@ -96,9 +112,9 @@ namespace PaymentServer
                     // stage 5
                     Console.WriteLine("Swish callback");
 
-					// json parsing
-					JsonDocument jd = JsonDocument.Parse(msg);
-					string token = jd.RootElement.GetProperty("token").GetString();
+                    // json parsing
+                    JsonDocument jd = JsonDocument.Parse(msg);
+                    string token = jd.RootElement.GetProperty("token").GetString();
 
                     foreach (Client c in list)
                     {
@@ -116,7 +132,7 @@ namespace PaymentServer
                         remove_list.Add(c);
                 foreach (Client c in remove_list)
                     list.Remove(c);
-                    
+
             }
         }
     }

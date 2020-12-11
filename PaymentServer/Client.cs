@@ -17,6 +17,7 @@ namespace PaymentServer
         Order order;
 
         private string second_response_send_msg;
+        private bool successfull_payment = false;
 
         bool is_done;
 
@@ -52,11 +53,13 @@ namespace PaymentServer
 
                 // send first response
                 // stage 4
-                first_response.send("<client><id>" + id + "</id><token>" + token.Value + "</token></client>\n");
+                first_response.send("<client status=\"true\"><id>" + id + "</id><token>" + token.Value + "</token></client>\n");
             }
             else
             {
                 // ERROR
+                first_response.send("<client status=\"false\"><errormsg>" + token.Value + "</errormsg></client>\n");
+                is_done = true;
             }
         }
 
@@ -67,6 +70,12 @@ namespace PaymentServer
             string send_msg = "<status>" + status + "</status>";
 
 			second_response_send_msg = send_msg;
+
+            if (status == "PAID")
+                successfull_payment = true;
+            else
+                successfull_payment = false;
+
             // the second response might not have been set at this moment
             if (second_response != null)
                 payment_done();
@@ -86,7 +95,10 @@ namespace PaymentServer
             // stage 6
 			second_response.send(second_response_send_msg);
 
-            EmailSender.SendEmail("Bord " + this.order.get_tablenumber(), this.order.toHTML());
+            if (successfull_payment)
+            {
+				EmailSender.SendEmail("Bord " + this.order.get_tablenumber(), this.order.toRecipt());
+            }
 
             is_done = true;
         }

@@ -1,15 +1,16 @@
-let numberofNotifications = 0;
-let currentlyOrderedDishIndex = -1;
+let numberofNotifications = 0; // the number of identical, previously ordered orders.
+let currentlyOrderedDishIndex = -1; //most recent dish_index ordered from.
 
 function displayNotificationDiv(select :SelectedItem, item_index: number) :void{
     var notificationDiv =
         <HTMLDivElement>document.getElementById("notificationDiv");
     notificationDiv.innerHTML = "";
 
-    if (currentlyOrderedDishIndex != item_index)
+    if (
+    currentlyOrderedDishIndex != item_index)
     {
         currentlyOrderedDishIndex = item_index;
-        numberofNotifications = 0;
+        numberofNotifications = 0; 
     }
 
     numberofNotifications += 1;
@@ -19,37 +20,42 @@ function displayNotificationDiv(select :SelectedItem, item_index: number) :void{
     {
         notificationDiv.innerHTML += numberofNotifications.toString() + "st ";
     }
-
+    
+    notificationDiv.innerHTML += select.name;
+    
     //display specifications
-    if (select.egg_free)
+    if (select.egg_free || select.milk_free || select.gluten_free)
     {
-        notificationDiv.innerHTML += " ÄG";
+        
+        notificationDiv.innerHTML += " ‧";
+    
+        if (select.egg_free)
+        {
+            notificationDiv.innerHTML += " ÄG";
+        }
+        if (select.milk_free)
+        {
+            notificationDiv.innerHTML += " MF";
+        }
+        if (select.gluten_free)
+        {
+            notificationDiv.innerHTML += " GF";
+        }
     }
-    if (select.milk_free)
-    {
-        notificationDiv.innerHTML += " MF";
-    }
-    if (select.gluten_free)
-    {
-        notificationDiv.innerHTML += " GF";
-    }
-
-    notificationDiv.innerHTML += "" + select.name + " ‧ tillagda.";
-
-    displayNotification();
-
-    if (currentlyOrderedDishIndex != item_index)
-    {
-        currentlyOrderedDishIndex = item_index;
-        numberofNotifications = 0;
-    }
+    
+    notificationDiv.innerHTML += " ‧ tillagd.";
+    displayNotification();    
 }
 
 function displayNotification()
 {
+    var that = (<HTMLDivElement>document.getElementById("notificationDiv"));
     (async () => {
-        (<HTMLDivElement>document.getElementById("notificationDiv")).classList.add("notificationFade");
-        await delay(2000);
-        (<HTMLDivElement>document.getElementById("notificationDiv")).classList.remove("notificationFade");
+        that.style.visibility = "inline";
+        that.classList.add("notificationFade");
+        await delay(3000);
+        that.classList.remove("notificationFade");
+        await delay(3000);
+        that.style.display = "none";
     })();
 }

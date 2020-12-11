@@ -113,3 +113,14 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+
+#errorMsg
+{
+    font-size: 200%;
+    background-color: #eab2b2;
+}
+#successMsg
+{
+    font-size: 200%;
+}
