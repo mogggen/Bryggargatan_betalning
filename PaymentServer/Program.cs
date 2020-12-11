@@ -10,7 +10,6 @@ using System.Xml;
 
 namespace PaymentServer
 {
-
     //  1. Ta emot betalningsförfrågningar från klienter
     //  2. Skapa payment request (swish api)
     //  3. Ta emot bekräftelse från swish
@@ -64,6 +63,7 @@ namespace PaymentServer
 			listener.Start();
 
             while (true)
+            {
                 HttpListenerContext context = listener.GetContext(); // Note: The GetContext method blocks while waiting for a request.
                 HttpListenerRequest request = context.Request;
 
