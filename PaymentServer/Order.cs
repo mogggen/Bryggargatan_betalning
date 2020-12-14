@@ -51,9 +51,9 @@ namespace PaymentServer
 			document.LoadXml(order);
 		}
 
-		public float get_price()
+		public float get_total_price()
 		{
-			return float.Parse(document.GetElementsByTagName("price")[0].InnerText);
+			return float.Parse(document.GetElementsByTagName("total_price")[0].InnerText);
 		}
 
 		public string get_phonenumber()
@@ -66,32 +66,37 @@ namespace PaymentServer
 			return document.GetElementsByTagName("tableid")[0].InnerText;
 		}
 
+		public string get_email()
+		{
+			return document.GetElementsByTagName("email")[0].InnerText;
+		}
+
 		public string toRecipt()
 		{
-			string tableid = document.GetElementsByTagName("tableid")[0].InnerText;
 			reciptCounter++;
 			string html = "" +
 				"<body>" +
-					"<h1>Beställning från bord " + tableid + "</h1>" +
+					"<h1>Beställning från bord " + get_tablenumber() + "</h1>" +
 					"---------------------------------------------" +
 					"<p>Kvitto: " + reciptCounter + "</p>" +
 					"<p>Org Nr: 556657-3621</p>" +
 					"<p>Datum: " + DateTime.UtcNow.ToLocalTime() + "</p>" +
-					"<p>Kassör: Bord" + tableid + "</p>" +
+					"<p>Kassör: SjälvBetalning via Bord " + get_tablenumber() + "</p>" +
 					"---------------------------------------------";
 
 			var items = document.GetElementsByTagName("item");
-			for (int i = 0; i < items.Count; i++)
+			foreach (XmlNode it in items)
 			{
-				html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\">" + items[i].Attributes.GetNamedItem("name").InnerText;
-				string notes = "";
+				html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\">"
+					+ it.Attributes.GetNamedItem("name").InnerText;
 
-				foreach (XmlNode child in items[i].ChildNodes)
+				foreach (XmlNode child in it.ChildNodes)
 				{
                     switch (child.Name)
                     {
 						case "price":
-							get_price();
+							html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">" + child.InnerText;
+                            Console.WriteLine(child.InnerText);
 							break;
 
                         case "gluten_free":
@@ -103,20 +108,14 @@ namespace PaymentServer
                         case "milk_free":
                             html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Mjölkfri</div>";
                             break;
-                        case "notes":
-                            notes += "<p style=\"margin-left: 40px; font-size: 1.3em;\">";
-                            notes += child.InnerText;
-                            notes += "</p>";
-                            break;
+
+							case 
                         default:
                             continue;
                     }
                 }
 
 				html += "</div>";
-
-				html += notes;
-
 			}
 
 			html += "</body>";
@@ -139,21 +138,26 @@ namespace PaymentServer
 
 				foreach (XmlNode child in items[i].ChildNodes)
 				{
-					if (child.Name == "gluten_free")
-						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Glutenfri</div>";
-					else if (child.Name == "egg_free")
-						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Äggfri</div>";
-					else if (child.Name == "milk_free")
-						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Mjölkfri</div>";
-					else if (child.Name == "notes")
-					{
-						notes += "<p style=\"margin-left: 40px; font-size: 1.3em;\">";
-						notes += child.InnerText;
-						notes += "</p>";
-					}
-					else
-						continue;
-				}
+                    switch (child.Name)
+                    {
+                        case "gluten_free":
+                            html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Glutenfri</div>";
+                            break;
+                        case "egg_free":
+                            html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Äggfri</div>";
+                            break;
+                        case "milk_free":
+                            html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Mjölkfri</div>";
+                            break;
+                        case "notes":
+                            notes += "<p style=\"margin-left: 40px; font-size: 1.3em;\">";
+                            notes += child.InnerText;
+                            notes += "</p>";
+                            break;
+                        default:
+                            continue;
+                    }
+                }
 
 				html += "</div>";
 

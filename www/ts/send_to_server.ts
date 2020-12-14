@@ -134,6 +134,7 @@ function order_to_xml() :string
     //<order>
     //    <item name="Dagens soppa"/>
     //    <item name="Lyxig räkmacka">
+    //        <price>129</price>
     //        <milk_free/>
     //        <gluten_free/>
     //        <egg_free/>
@@ -143,7 +144,7 @@ function order_to_xml() :string
     //    <item name="Fransk fiskgryta">
     //        <gluten_free/>
     //    </item>
-    //    <price>1000</price>
+    //    <total_price>1000</total_price>
     //    <tableid>7</tableid>
     //    <phonenr>0701234567</phonenr>
     //    <email>harry.hedman@gmail.com</email>
@@ -160,7 +161,9 @@ function order_to_xml() :string
     selectedItems.forEach((it) => {
 
         let item_content :string = "";
-    
+        
+        item_content += "<price>" + it.price + "</price>";
+        
         if(it.milk_free)
             item_content += "<milk_free/>";
         if(it.gluten_free)
@@ -171,16 +174,13 @@ function order_to_xml() :string
         if(it.notes_to_chef != null && it.notes_to_chef != undefined)
             item_content += "<notes>" + it.notes_to_chef + "</notes>";
 
-        if(item_content.length <= 0)
-            xml += "<item name=\"" + it.name + "\"/>";
-        else
-            xml += "<item name=\"" + it.name + "\">" + item_content + "</item>";
+        xml += '<item name="' + it.name + '">' + item_content + '</item>';
 
         total_price += it.price;
     });
 
 
-    xml += "<price>" + total_price + "</price>";
+    xml += "<total_price>" + total_price + "</total_price>";
     xml += "<tableid>" + (<HTMLInputElement>document.getElementById("tableidInput")).value + "</tableid>";
     xml += "<phonenr>" + (<HTMLInputElement>document.getElementById("phonenrInput")).value + "</phonenr>";
     if((<HTMLInputElement>document.getElementById("receiptBox")).checked){
