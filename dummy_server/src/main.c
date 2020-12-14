@@ -91,15 +91,15 @@ int send_callback_msg(int token)
 {
     char content[2048];
     char callback_msg[2048];
-    sprintf(content, "{\"Bambozzeled\":\"Yes, yes you are.\", \"token\":\"%d\", \"status\":\"DECLINED\"}\n", token);
-    sprintf(callback_msg, "PUT / HTTP/1.1\nHost: localhost:9002\nContent-Length: %llu\n\n%s", strlen(content), content);
+    sprintf(content, "{\"Bambozzeled\":\"Yes, yes you are.\", \"token\":\"%d\", \"status\":\"PAID\"}\n", token);
+    sprintf(callback_msg, "PUT / HTTP/1.1\r\nHost: localhost:9002\r\nUser-Agent: DummyThickSwish\r\nContent-Length: %llu\r\n\r\n%s", strlen(content), content);
 
     printf("<> Sending callback\n");
 
     struct sockaddr_in callback_addr;
     callback_addr.sin_family = AF_INET;
     callback_addr.sin_port = htons(9002);
-    inet_pton(AF_INET, "127.0.0.1", &callback_addr.sin_addr);
+    inet_pton(AF_INET, "130.240.40.7", &callback_addr.sin_addr);
     SOCKET callback_socket = create_socket(AF_INET, SOCK_STREAM, 0);
     if (callback_socket == SOCKET_ERROR)
     {
@@ -122,7 +122,11 @@ int send_callback_msg(int token)
         return false;
     }
     
+#if WIN32
     shutdown(callback_socket, SD_BOTH);
+#else
+    close(callback_socket);
+#endif
 
     printf("<> Callback closed\n");
     return true;
@@ -159,7 +163,13 @@ int main(int argc, char** argv)
     }
     printf("<> Started to listen...\n");
 
+
+#if WIN32
     struct fd_set master_set, copy_set;
+#else
+    fd_set master_set, copy_set;
+#endif
+
     FD_ZERO(&master_set);
     FD_SET(listening_socket, &master_set);
     
@@ -172,8 +182,9 @@ int main(int argc, char** argv)
     while(true)
     {
         copy_set = master_set;    
+        struct timeval c_timeval = max_time;
 
-        int n_ready_sockets = select(0, &copy_set, NULL, NULL, &max_time);
+        int n_ready_sockets = select(listening_socket+1, &copy_set, NULL, NULL, &c_timeval);
         if(n_ready_sockets == SOCKET_ERROR)
         {
             printf("<!> Faild to select ");
@@ -196,7 +207,11 @@ int main(int argc, char** argv)
 
             receive_http_request(client_socket, token_id);
 
+#if WIN32
             shutdown(client_socket, SD_BOTH);
+#else
+            close(client_socket);
+#endif
             printf("<> Client dissconnected\n");
             
             struct CallbackWait* new_callback = (struct CallbackWait*)add_element(&callback_jobs);

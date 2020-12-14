@@ -11,9 +11,12 @@ www/package.json
 [Pp]ayment[Ss]erver/obj
 [Pp]ayment[Ss]erver/[Uu]pgrade[Ll]og.htm
 
+[Pp]ayment[Ss]erverJava/out
+
 dummy_server/bin
 dummy_server/out
 dummy_server/build
+dummy_server/linux_build
 dummy_server/.vs
 dummy_server/.clangd
 dummy_server/.proj.vim
