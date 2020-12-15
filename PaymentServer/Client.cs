@@ -41,7 +41,7 @@ namespace PaymentServer
         {
             // send swish request 
             // stage 2
-            DummySwishRequest swish_request = new DummySwishRequest(order.get_price(), order.get_phonenumber());
+            DummySwishRequest swish_request = new DummySwishRequest(order.get_total_price(), order.get_phonenumber());
 
             Result<string> token = await swish_request.Send();
 
