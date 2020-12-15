@@ -3,12 +3,7 @@ package paymentserver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
 import java.time.*;
 
 /*
@@ -48,49 +43,66 @@ Moms
 */
 public class Order
 {
-//C# TO JAVA CONVERTER WARNING: Unsigned integer types have no direct equivalent in Java:
-//ORIGINAL LINE: private ulong reciptCounter;
-	private long reciptCounter;
-//C# TO JAVA CONVERTER WARNING: Unsigned integer types have no direct equivalent in Java:
-//ORIGINAL LINE: public ulong getReciptCounter()
-	public final long getReciptCounter()
+	private long receiptCounter;
+	public long getReceiptCounter()
 	{
-		return reciptCounter;
+		return receiptCounter;
 	}
-//C# TO JAVA CONVERTER WARNING: Unsigned integer types have no direct equivalent in Java:
-//ORIGINAL LINE: public void setReciptCounter(ulong value)
-	public final void setReciptCounter(long value)
+	public void setReceiptCounter(long value)
 	{
-		reciptCounter = value;
+		receiptCounter = value;
 	}
 	private Document document;
+
+	public Document getDocument() {
+		return document;
+	}
 
 	public Order(Document doc)
 	{
 	    this.document = doc;
 	}
 
-	public final float get_price()
+	public float get_total_price()
 	{
-		return Float.parseFloat(document.getElementsByTagName("price").item(0).getTextContent());
+		return Float.parseFloat(document.getElementsByTagName("total_price").item(0).getTextContent());
 	}
 
-	public final String get_phonenumber()
+	public String get_phone_number()
 	{
 		return document.getElementsByTagName("phonenr").item(0).getTextContent();
 	}
 
-	public final String get_tablenumber()
+	public String get_table_number()
 	{
 		return document.getElementsByTagName("tableid").item(0).getTextContent();
 	}
 
-	public final String toRecipt()
+	public String toReceipt()
 	{
-		//String tableid = document.GetElementsByTagName("tableid")[0].InnerText;
-		String tableid = get_tablenumber();
-		setReciptCounter(getReciptCounter() + 1);
-		String html = "" + "<body>" + "<h1>Beställning från bord " + tableid + "</h1>" + "---------------------------------------------" + "<p>Kvitto: " + getReciptCounter() + "</p>" + "<p>Org Nr: 556657-3621</p>" + "<p>Datum: " /*TODO Fix this shit + LocalDateTime.UtcNow.ToLocalTime()*/ + "</p>" + "<p>Kassör: Bord" + tableid + "</p>" + "---------------------------------------------";
+		//TODO fix winterTime
+		//OffsetDateTime odt = OffsetDateTime.now(ZoneId.systemDefault());
+		//ZoneOffset zos = odt.getOffset();
+		//int os = zos.getTotalSeconds();
+
+		//LocalDate ld = LocalDate.now();
+		//ZoneId zid = ZoneId.of("Sweden");
+		Clock clock = Clock.systemUTC();
+		//ZonedDateTime zdt =
+		String dateTime = clock.instant().toString().split("T")[0] + " "
+				+ (clock.instant().toString().split("T")[1]).split("\\.")[0];
+		System.out.println(dateTime);
+
+		String html = "";
+		html += "<body>" +
+				"<h1>Bryggargatan </h1>" +
+				"---------------------------------------------" +
+				"<p>Kvitto: " + getReceiptCounter() + "</p>" +
+				"<p>Org Nr: 556657-3621</p>" +
+				"<p>Datum: " + dateTime + "</p>" +
+				"<p>Kassör: SjälvBetalning via Bord " + get_table_number() + "</p>" +
+				"---------------------------------------------";
+		setReceiptCounter(getReceiptCounter() + 1);
 
 		NodeList items = document.getElementsByTagName("item");
 		for (int i = 0; i < items.getLength(); i++)
@@ -103,31 +115,46 @@ public class Order
 				switch (node.getChildNodes().item(j).getNodeName())
 				{
 					case "price":
-						get_price();
+						html += "<div type=\"kvitto\" style=\"float: right; margin-left: 10px;\">" + node.getChildNodes().item(j).getTextContent() + "</div>";
 						break;
 
 					case "gluten_free":
-						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Glutenfri</div>";
+						html += "<div style=\"float: right; margin-left: 10px;\">Glutenfri</div>";
 						break;
 					case "egg_free":
-						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Äggfri</div>";
+						html += "<div style=\"float: right; margin-left: 10px;\">Äggfri</div>";
 						break;
 					case "milk_free":
-						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Mjölkfri</div>";
+						html += "<div style=\"float: right; margin-left: 10px;\">Mjölkfri</div>";
 						break;
 					default:
-						continue;
 				}
 			}
 
 			html += "</div>";
 		}
 
+		float moms = 0.12f;
+		html += "<div>";
+		html += "<div style=\"display: inline-block; font-weight: normal;\">Moms</div>";
+		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">Belopp</div>";
+		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">Netto</div>";
+		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">Brutto</div>";
+		html += "</div>";
+
+		html += "<div>";
+		html += "<div style=\"display: inline-block; font-weight: normal;\">" + (int)(moms * 100) + "%</div>";
+		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">" + Math.round(get_total_price() * moms * 100.0) / 100.0 + "</div>";
+		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">" + Math.round(get_total_price() * (1 - moms) * 100.0) / 100.0 + "</div>";
+		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">" + get_total_price() + "</div>";
+		html += "</div>";
+
 		html += "</body>";
 
 		return html;
 	}
 
+	//TODO remove toHTML
 	public final String toHTML()
 	{
 		String html = "" + "<body>" + "<h1>Beställning från bord " + document.getElementsByTagName("tableid").item(0).getTextContent() + "</h1>";
@@ -142,27 +169,22 @@ public class Order
 			NodeList children = items.item(i).getChildNodes();
 			for (int j = 0; j < children.getLength(); j++)
 			{
-				if (children.item(j).getNodeName().equals("gluten_free"))
-				{
-					html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Glutenfri</div>";
-				}
-				else if (children.item(j).getNodeName().equals("egg_free"))
-				{
-					html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Äggfri</div>";
-				}
-				else if (children.item(j).getNodeName().equals("milk_free"))
-				{
-					html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Mjölkfri</div>";
-				}
-				else if (children.item(j).getNodeName().equals("notes"))
-				{
-					notes += "<p style=\"margin-left: 40px; font-size: 1.3em;\">";
-					notes += children.item(j).getNodeValue();
-					notes += "</p>";
-				}
-				else
-				{
-					continue;
+				switch (children.item(j).getNodeName()) {
+					case "gluten_free":
+						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Glutenfri</div>";
+						break;
+					case "egg_free":
+						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Äggfri</div>";
+						break;
+					case "milk_free":
+						html += "<div style=\"float: right; margin-left: 10px; font-weight: normal;\">Mjölkfri</div>";
+						break;
+					case "notes":
+						notes += "<p style=\"margin-left: 40px; font-size: 1.3em;\">";
+						notes += children.item(j).getNodeValue();
+						notes += "</p>";
+						break;
+					default:
 				}
 			}
 

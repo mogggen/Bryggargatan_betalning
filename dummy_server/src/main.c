@@ -99,7 +99,7 @@ int send_callback_msg(int token)
     struct sockaddr_in callback_addr;
     callback_addr.sin_family = AF_INET;
     callback_addr.sin_port = htons(9002);
-    inet_pton(AF_INET, "130.240.40.7", &callback_addr.sin_addr);
+    inet_pton(AF_INET, "127.0.0.1", &callback_addr.sin_addr);
     SOCKET callback_socket = create_socket(AF_INET, SOCK_STREAM, 0);
     if (callback_socket == SOCKET_ERROR)
     {
