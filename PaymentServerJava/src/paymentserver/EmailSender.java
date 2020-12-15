@@ -2,10 +2,7 @@ package paymentserver;
 
 import com.sun.mail.smtp.SMTPTransport;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -17,49 +14,83 @@ import javax.activation.DataSource;
 
 public class EmailSender
 {
-	public static void SendEmail(String subject, String msg)
+	static EmailSender instance;
+
+	private String email_addr;
+	private String password;
+
+	private EmailSender() throws IOException
+	{
+		File file = new File("email_credentials.txt");
+
+		BufferedReader reader = new BufferedReader(new FileReader(file));
+
+		String s;
+		s = reader.readLine();
+		if(s != null)
+			email_addr = s;
+		else throw new IOException("Credentials file doesn't have emailaddress.");
+
+		s = reader.readLine();
+		if(s != null)
+			password = s;
+		else throw new IOException("Credentials file doesn't have password.");
+
+		System.out.println(email_addr);
+		System.out.println(password);
+	}
+
+	public static boolean Instantiate()
+	{
+	    try
+		{
+			instance = new EmailSender();
+			return true;
+		}
+	    catch (IOException e)
+		{
+			System.out.println(e.getMessage());
+			return false;
+		}
+	}
+
+	public static void SendEmail(String recipient, String subject, String msg)
 	{
 		try
 		{
-			// TODO 
-			// Create new email account for sending stuff
-			// load logincredentials from file
-			//MailMessage message = new MailMessage();
-			//SmtpClient smtp = new SmtpClient();
-			//message.From = new MailAddress("maglii-9@student.ltu.se");
-			//message.To.Add(new MailAddress("mornym-9@student.ltu.se"));
-			//message.Subject = subject;
-			//message.IsBodyHtml = true;
-			//message.Body = msg;
-
-			//smtp.Port = 25;
-			//smtp.Host = "smtphost.ltu.se";
-			//smtp.EnableSsl = true;
-
-			//smtp.Send(message);
-
 			Properties prop = System.getProperties();
-			prop.setProperty("mail.smtp.host", "smtphost.ltu.se");
-			prop.put("mail.smtp.auth", "true");
-			prop.put("mail.smtp.port", "25");
+			prop.put("mail.smtp.host", "smtp.gmail.com");
+			prop.put("mail.smtp.socketFactory.port", "465");
+			prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-			Session session = Session.getDefaultInstance(prop);
+			prop.put("mail.smtp.auth", "true");
+			prop.put("mail.smtp.port", "465");
+
+			Session session = Session.getDefaultInstance(prop, new javax.mail.Authenticator() {
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+				    return new PasswordAuthentication(instance.email_addr, instance.password);
+				}
+			});
 
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("maglii-9@student.ltu.se"));
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("maglii-9@student.ltu.se"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			message.setSubject(subject);
 			message.setDataHandler(new DataHandler(new HTMLDataSource(msg)));
 
-			SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
-			t.connect("smtphost.ltu.se", "maglii-9", "");
-			t.sendMessage(message, message.getAllRecipients());
+			Transport.send(message);
+
 			System.out.println("Send Email");
 		}
 		catch (Exception e)
 		{
 		    e.printStackTrace();
 		}
+	}
+
+	public static void SendEmailToKitchen(String subject, String msg)
+	{
+		SendEmail(instance.email_addr, subject, msg);
 	}
 
 	// Copy 'n' Paste

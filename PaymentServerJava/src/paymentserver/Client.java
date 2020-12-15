@@ -101,7 +101,7 @@ public class Client
 
 		if (successfull_payment)
 		{
-			EmailSender.SendEmail("Bord " + this.order.get_tablenumber(), this.order.toHTML());
+			EmailSender.SendEmailToKitchen("Bord " + this.order.get_tablenumber(), this.order.toHTML());
 		}
 
 		is_done = true;

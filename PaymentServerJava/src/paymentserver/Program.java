@@ -45,6 +45,9 @@ public class Program {
 			hostname = "127.0.0.1";
 
 
+		if (!EmailSender.Instantiate())
+			return;
+
 		ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 		try {
 			server = HttpServer.create(new InetSocketAddress(hostname, 9002), 10);
@@ -58,6 +61,8 @@ public class Program {
 		DummySwishRequest.callback_url = "http://localhost:9002";
 
 		server.start();
+
+		System.out.println("Started Server");
 	}
 
 	private static class MyHttpHandler implements HttpHandler {

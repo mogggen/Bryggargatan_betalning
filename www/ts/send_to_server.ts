@@ -107,7 +107,7 @@ function send_message_to_server(msg: string, callback_func :(success :boolean, h
 {
     const http = new XMLHttpRequest();
     //const url = "http://130.240.54.162:9002";
-    const url = "http://130.240.40.7:9002";
+    const url = "http://localhost:9002";
     http.open("POST", url);
     //http.setRequestHeader("Access-Control-Allow-Origin", "*");
     http.send(msg);

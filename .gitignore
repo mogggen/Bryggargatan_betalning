@@ -12,6 +12,8 @@ www/package.json
 [Pp]ayment[Ss]erver/[Uu]pgrade[Ll]og.htm
 
 [Pp]ayment[Ss]erverJava/out
+[Pp]ayment[Ss]erverJava/email_credentials.txt
+
 
 dummy_server/bin
 dummy_server/out
