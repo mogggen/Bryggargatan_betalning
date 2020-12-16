@@ -39,7 +39,7 @@ public class Client
 	{
 		// send swish request
 		// stage 2
-		DummySwishRequest swish_request = new DummySwishRequest((float)order.get_total_price(), order.get_phone_number());
+		DummySwishRequest swish_request = new DummySwishRequest(order.get_total_price(), order.get_phone_number());
 
 //C# TO JAVA CONVERTER TODO TASK: There is no equivalent to 'await' in Java:
 		Result<String> token = swish_request.Send();
@@ -98,7 +98,7 @@ public class Client
 
 		if (successful_payment)
 		{
-			//EmailSender.SendEmailToKitchen("Bord " + this.order.get_table_number(), this.order.toReceipt());
+			EmailSender.SendEmailToKitchen("Bord " + this.order.get_table_number(), this.order.toReceipt());
 			if (!order.get_email().equals(""))
 			{
 				EmailSender.SendEmail("mornym-9@student.ltu.se", "Kvitto från bord " + this.order.get_table_number(), this.order.toReceipt());

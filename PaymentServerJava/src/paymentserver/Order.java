@@ -6,47 +6,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.text.DecimalFormat;
-import java.time.*;
-
-/*
-kvitto behöver(enligt coop och Legend spelbutik AB):
-orginisationsnummer
-Datum
-Kassör
-Kvitto
-
-summering
-
-moms
-.
-%
-belopp
-exklusiv/Netto
-Inklusiv/Brutto
-.
-
-Enligt kvitto.org
-Enligt Bokföringslagen (5 kapitlet, 7 §) ska verifikationen eller kvittot innehålla uppgifter om:
-
-när kvittot sammanställts,
-när affärshändelsen inträffat,
-vad den avser,
-vilket belopp,
-vilken motpart,
-verifikationsnummer eller annan identifikation som hänvisar till den bokförda affärshändelsen.
-
-Vid ett köp brukar följande information finnas med på kvittot:
-Säljarens namn och adress
-Organisationsnummer
-Datum och klockslag
-Artikelnamn/tjänstens beteckning och antal (ev. m. tillhörande beskrivning eller begränsning)
-Belopp / pris
-Moms
-*/
 public class Order
 {
-	private long receiptCounter;
+	private static long receiptCounter;
 	public long getReceiptCounter()
 	{
 		return receiptCounter;
@@ -64,13 +26,9 @@ public class Order
 	    this.document = doc;
 	}
 
-	public Document getDocument() {
-		return document;
-	}
-
-	public double get_total_price()
+	public float get_total_price()
 	{
-		return Double.parseDouble(document.getElementsByTagName("total_price").item(0).getTextContent());
+		return Float.parseFloat(document.getElementsByTagName("total_price").item(0).getTextContent());
 	}
 
 	public String get_phone_number()
@@ -96,18 +54,13 @@ public class Order
 		String dateTime = now.toString().split("T")[0] + " "
 				+ (now.toString().split("T")[1]).split("\\.")[0];
 
-
-		DecimalFormat df2 = new DecimalFormat( "# ### ### ##0,00" );
-		double dd = get_total_price();
-		double dd2dec = new Double(df2.format(dd));
-
 		setReceiptCounter(getReceiptCounter() + 1);
 
 		String html = "";
 		html += "<body>" +
 				"<h1>Bryggargatan </h1>" +
 				"---------------------------------------------" +
-				"<p>Kvitto: " + getReceiptCounter() + "</p>" +
+				"<p>Kvitto: " +  getReceiptCounter() + "</p>" +
 				"<p>Org Nr: 556657-3621</p>" +
 				"<p>Datum: " + dateTime + "</p>" +
 				"<p>Kassör: SjälvBetalning via Bord " + get_table_number() + "</p>" +
@@ -115,6 +68,9 @@ public class Order
 
 
 		NodeList items = document.getElementsByTagName("item");
+
+		html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\"><div style=\"float: right;\">SEK</div></div>";
+
 		for (int i = 0; i < items.getLength(); i++)
 		{
 			html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\">" + items.item(i).getAttributes().getNamedItem("name").getTextContent();
@@ -125,7 +81,7 @@ public class Order
 				switch (node.getChildNodes().item(j).getNodeName())
 				{
 					case "price":
-						html += "<div type=\"kvitto\" style=\"float: right; margin-left: 10px;\">" + node.getChildNodes().item(j).getTextContent() + "</div>";
+						html += "<div style=\"float: right; margin-left: 10px;\">" + node.getChildNodes().item(j).getTextContent() + ",00</div>";
 						break;
 
 					case "gluten_free":
@@ -141,13 +97,14 @@ public class Order
 				}
 			}
 
-			html += "</div>";
+			html += "</div>"; //closes order div
 		}
 
 
 
-		html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\">";
-		html += "<div style=\"float: right; margin-left: 10px;\">" + dd2dec + "</div>";
+		html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\">ATT BETALA";
+		html += "<div style=\"float: right; margin-left: 10px;\">" +  String.format("%.2f", (double)get_total_price()) + "</div>";
+		html += "</div>";
 
 		float moms = 0.12f;
 		html += "<div>";
