@@ -1,9 +1,12 @@
 package paymentserver;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.text.DecimalFormat;
 import java.time.*;
 
 /*
@@ -54,18 +57,20 @@ public class Order
 	}
 	private Document document;
 
-	public Document getDocument() {
-		return document;
-	}
+
 
 	public Order(Document doc)
 	{
 	    this.document = doc;
 	}
 
-	public float get_total_price()
+	public Document getDocument() {
+		return document;
+	}
+
+	public double get_total_price()
 	{
-		return Float.parseFloat(document.getElementsByTagName("total_price").item(0).getTextContent());
+		return Double.parseDouble(document.getElementsByTagName("total_price").item(0).getTextContent());
 	}
 
 	public String get_phone_number()
@@ -78,20 +83,25 @@ public class Order
 		return document.getElementsByTagName("tableid").item(0).getTextContent();
 	}
 
+	public String get_email()
+	{
+		return document.getElementsByTagName("email").item(0).getTextContent();
+	}
+
 	public String toReceipt()
 	{
-		//TODO fix winterTime
-		//OffsetDateTime odt = OffsetDateTime.now(ZoneId.systemDefault());
-		//ZoneOffset zos = odt.getOffset();
-		//int os = zos.getTotalSeconds();
+		DateTimeZone sweden = DateTimeZone.forID("Europe/Stockholm");
+		DateTime now = DateTime.now(sweden);
 
-		//LocalDate ld = LocalDate.now();
-		//ZoneId zid = ZoneId.of("Sweden");
-		Clock clock = Clock.systemUTC();
-		//ZonedDateTime zdt =
-		String dateTime = clock.instant().toString().split("T")[0] + " "
-				+ (clock.instant().toString().split("T")[1]).split("\\.")[0];
-		System.out.println(dateTime);
+		String dateTime = now.toString().split("T")[0] + " "
+				+ (now.toString().split("T")[1]).split("\\.")[0];
+
+
+		DecimalFormat df2 = new DecimalFormat( "# ### ### ##0,00" );
+		double dd = get_total_price();
+		double dd2dec = new Double(df2.format(dd));
+
+		setReceiptCounter(getReceiptCounter() + 1);
 
 		String html = "";
 		html += "<body>" +
@@ -102,7 +112,7 @@ public class Order
 				"<p>Datum: " + dateTime + "</p>" +
 				"<p>Kassör: SjälvBetalning via Bord " + get_table_number() + "</p>" +
 				"---------------------------------------------";
-		setReceiptCounter(getReceiptCounter() + 1);
+
 
 		NodeList items = document.getElementsByTagName("item");
 		for (int i = 0; i < items.getLength(); i++)
@@ -134,12 +144,17 @@ public class Order
 			html += "</div>";
 		}
 
+
+
+		html += "<div style=\"overflow: auto; width: 600px; margin: 20px; font-weight: bold; font-size: 1.7em; border: solid gray; border-width: 0 0 3px 0;\">";
+		html += "<div style=\"float: right; margin-left: 10px;\">" + dd2dec + "</div>";
+
 		float moms = 0.12f;
 		html += "<div>";
 		html += "<div style=\"display: inline-block; font-weight: normal;\">Moms</div>";
-		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">Belopp</div>";
-		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">Netto</div>";
-		html += "<div style=\"display: inline-block; margin-left: 10%; font-weight: normal;\">Brutto</div>";
+		html += "<div style=\"display: inline-block; margin-left: 8%; font-weight: normal;\">Belopp</div>";
+		html += "<div style=\"display: inline-block; margin-left: 8%; font-weight: normal;\">Netto</div>";
+		html += "<div style=\"display: inline-block; margin-left: 8%; font-weight: normal;\">Brutto</div>";
 		html += "</div>";
 
 		html += "<div>";

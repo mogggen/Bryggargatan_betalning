@@ -39,7 +39,7 @@ public class Client
 	{
 		// send swish request
 		// stage 2
-		DummySwishRequest swish_request = new DummySwishRequest(order.get_total_price(), order.get_phone_number());
+		DummySwishRequest swish_request = new DummySwishRequest((float)order.get_total_price(), order.get_phone_number());
 
 //C# TO JAVA CONVERTER TODO TASK: There is no equivalent to 'await' in Java:
 		Result<String> token = swish_request.Send();
@@ -90,23 +90,6 @@ public class Client
 		}
 	}
 
-	//TODO Mega code review, jease
-	private boolean wantMail(Order order)
-	{
-		Document document = order.getDocument();
-		NodeList items = document.getElementsByTagName("item");
-		for (int i = 0; i < items.getLength(); i++) {
-			Node node = items.item(i);
-			for (int j = 0; j < node.getChildNodes().getLength(); j++) {
-
-				if (node.getChildNodes().item(j).getNodeName().equals("email")) {
-					return !node.getChildNodes().item(j).getTextContent().equals("");
-				}
-			}
-		}
-		return false;
-	}
-
 	private void payment_done()
 	{
 		// stage 6
@@ -116,8 +99,10 @@ public class Client
 		if (successful_payment)
 		{
 			//EmailSender.SendEmailToKitchen("Bord " + this.order.get_table_number(), this.order.toReceipt());
-			if (wantMail(order))
-			EmailSender.SendEmail("mornym-9@student.ltu.se","Kvitto från bord " + this.order.get_table_number(), this.order.toReceipt());
+			if (!order.get_email().equals(""))
+			{
+				EmailSender.SendEmail("mornym-9@student.ltu.se", "Kvitto från bord " + this.order.get_table_number(), this.order.toReceipt());
+			}
 		}
 
 		is_done = true;

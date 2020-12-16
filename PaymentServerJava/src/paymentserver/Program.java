@@ -3,6 +3,8 @@ package paymentserver;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -38,6 +40,7 @@ public class Program {
 		ArrayList<Client> list = new ArrayList();
 
 		String hostname;
+
 
 		if(prefixes.length > 0)
 			hostname = prefixes[0];
