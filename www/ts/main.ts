@@ -4,4 +4,5 @@ function onStartUp()
 {
     console.log("Bar");
     readTextFile("dishes.json");
+    process_url_query();
 }

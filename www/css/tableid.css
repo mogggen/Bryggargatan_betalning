@@ -17,3 +17,10 @@
     background: white;
     width: 12%;
 }
+
+#tableidInput:disabled
+{
+    border: 3px solid gray;
+    background: #eaeaea;
+    color: gray;
+}
