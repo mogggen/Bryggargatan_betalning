@@ -30,7 +30,8 @@ function send_order_to_server()
     addPopupWaitingForSwishContent();
     
     //Reset tableid textbox for stylistic purposes
-    tableidInputObject.value = "";
+    if(!tableidInputObject.disabled) // don't reset if table id comes from url
+        tableidInputObject.value = "";
     phonenrInputObject.value = "";
 }
 
