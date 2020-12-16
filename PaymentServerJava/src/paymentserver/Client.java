@@ -107,7 +107,7 @@ public class Client
 
 		is_done = true;
 	}
-
+	//
 
 	public final String getId()
 	{
