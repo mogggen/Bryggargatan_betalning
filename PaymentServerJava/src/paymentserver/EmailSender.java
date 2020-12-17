@@ -1,16 +1,15 @@
 package paymentserver;
 
-import com.sun.mail.smtp.SMTPTransport;
-
-import java.io.*;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Properties;
 import javax.activation.DataHandler;
-import javax.mail.*;
+import javax.activation.DataSource;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.activation.DataSource;
+import java.io.*;
+import java.util.Properties;
 
 public class EmailSender
 {
@@ -29,7 +28,7 @@ public class EmailSender
 		s = reader.readLine();
 		if(s != null)
 			email_addr = s;
-		else throw new IOException("Credentials file doesn't have emailaddress.");
+		else throw new IOException("Credentials file doesn't have email address.");
 
 		s = reader.readLine();
 		if(s != null)

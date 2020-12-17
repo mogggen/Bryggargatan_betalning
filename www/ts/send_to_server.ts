@@ -107,10 +107,8 @@ function second_send_callback(success :boolean, http :XMLHttpRequest)
 function send_message_to_server(msg: string, callback_func :(success :boolean, http :XMLHttpRequest) => void)
 {
     const http = new XMLHttpRequest();
-    //const url = "http://130.240.54.162:9002";
     const url = "http://localhost:9002";
     http.open("POST", url);
-    //http.setRequestHeader("Access-Control-Allow-Origin", "*");
     http.send(msg);
     http.onreadystatechange = () =>  {
 
@@ -156,8 +154,6 @@ function order_to_xml() :string
     let total_price :number = 0
 
     xml += "<order>"
-
-    //xml += "<item name=\"ObiWan\"><milk_free/><gluten_free/><egg_free/><notes>Hello there! General Kenobi.</notes></item>";
 
     selectedItems.forEach((it) => {
 

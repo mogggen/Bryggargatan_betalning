@@ -22,30 +22,6 @@ function addNewExpandDivHolder(dish :Dish):string{
     return expandHTML;
 }
 
-//CURRENTLY OBSOLETE
-function addExpandDiv(dish_index:number) :void{
-    let expandDivHolder = document.getElementById("expandDivHolder"+dish_index);
-    
-    expandDivHolder.innerHTML = 
-        "<div class=\"expandDiv\" id=\"expandDiv"+dish_index+"\">"+
-            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"MF\" name=\"MF\" value=\"MF\">"+
-            "<label class=\"expandLabel\" for=\"MF\">Mjölkfri</label><br>"+
-            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"GF\" name=\"GF\" value=\"GF\">"+
-            "<label class=\"expandLabel\" for=\"GF\">Glutenfri</label><br>"+
-            "<input type=\"checkbox\" class=\"FOCheckBox"+dish_index+"\" id=\"EF\" name=\"EF\" value=\"EF\">"+
-            "<label class=\"expandLabel\" for=\"EF\">Äggfri</label>"+
-        "</div>";
-    
-    /*let expandDiv = document.getElementById("expandDiv"+dish_index);
-    (async () => { 
-
-        await delay(10);
-    
-        expandDiv.classList.toggle("show");
-    })();*/
-    
-}
-
 //Toggles css classes on current expandDiv which add visibility: visible and height: 18% or so
 function showExpandDiv(dish_index:number) :void{
     let expandDiv = document.getElementById("expandDiv"+dish_index);
@@ -99,7 +75,6 @@ function preCheckBoxes(dish_index:number) :void{
         }
     }
     
-    //Same as MF
     let gf = document.getElementsByName("GF");
     switch(dish.glutenFreeFO){
         case FoodOption.Yes: {
@@ -121,7 +96,6 @@ function preCheckBoxes(dish_index:number) :void{
         }
     }
     
-    //Same as MF
     let ef = document.getElementsByName("EF");
     switch(dish.eggFreeFO){
         case FoodOption.Yes: {

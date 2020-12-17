@@ -1,7 +1,6 @@
 package paymentserver;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public class DummySwishCallback
 {
@@ -18,7 +17,7 @@ public class DummySwishCallback
 		//  PAID
 		//  CANCELED
 		//  ERROR
-		//  CREATEAD
+		//  CREATED
 		return status;
 	}
 }

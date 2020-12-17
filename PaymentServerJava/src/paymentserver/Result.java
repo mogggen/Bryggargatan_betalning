@@ -1,7 +1,5 @@
 package paymentserver;
 
-//C# TO JAVA CONVERTER WARNING: Java does not allow user-defined value types. The behavior of this class may differ from the original:
-//ORIGINAL LINE: struct Result<T>
 public final class Result<T>
 {
 	private boolean success;
@@ -11,9 +9,9 @@ public final class Result<T>
 	{
 	}
 
-	private Result(boolean succes, T value)
+	private Result(boolean success, T value)
 	{
-		this.success = succes;
+		this.success = success;
 		this.value = value;
 	}
 	public boolean Success()

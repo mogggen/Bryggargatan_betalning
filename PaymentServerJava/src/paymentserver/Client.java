@@ -1,9 +1,5 @@
 package paymentserver;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 public class Client
 {
 	private static int globId = 1;
@@ -107,7 +103,6 @@ public class Client
 
 		is_done = true;
 	}
-	//
 
 	public final String getId()
 	{
@@ -121,5 +116,4 @@ public class Client
 	{
 		return is_done;
 	}
-
 }

@@ -9,10 +9,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.ExecutionException;
-
-import static paymentserver.Result.Failure;
-import static paymentserver.Result.Success;
 
 public class DummySwishRequest
 {
@@ -56,7 +52,7 @@ public class DummySwishRequest
 			response = client.send(req_msg, HttpResponse.BodyHandlers.ofString());
 
 
-			System.out.println("Recieved payment token");
+			System.out.println("Received payment token");
 
 			// json parsing
             JSONObject jo = (JSONObject) new JSONParser().parse(response.body());
@@ -89,7 +85,7 @@ public class DummySwishRequest
 						}
 						catch (ParseException e)
 						{
-							return "Currupt message";
+							return "Corrupt message";
 						}
 				}
 

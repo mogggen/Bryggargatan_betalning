@@ -62,19 +62,8 @@ function parseAndPrintDishesFile(allText: string){
     printText += "</div>";
     
     document.getElementById("menuDiv").innerHTML = printText;
-    //printParsedDishes(); integrated this function into current one.
-    
     
     for(var i = 0; i < parsedText.dishes.length; i++){
         preCheckBoxes(i);
     }
-}
-
-//Obsolete
-function printParsedDishes(){
-    var allText = "";
-    for(var i = 0; i < menuItems.length; i++){
-        allText += menuItems[i].menuToHTML();
-    }
-    document.getElementById("menuDiv").innerHTML = allText;
 }
