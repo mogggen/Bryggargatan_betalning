@@ -31,7 +31,7 @@ function displayNotificationDiv(select :SelectedItem, item_index: number) :void{
     
         if (select.egg_free)
         {
-            notificationDiv.innerHTML += " ÄG";
+            notificationDiv.innerHTML += " ÄF";
         }
         if (select.milk_free)
         {

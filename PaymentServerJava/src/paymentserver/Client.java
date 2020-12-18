@@ -97,7 +97,7 @@ public class Client
 			EmailSender.SendEmailToKitchen("Bord " + this.order.get_table_number(), this.order.toReceipt());
 			if (!order.get_email().equals(""))
 			{
-				EmailSender.SendEmail("mornym-9@student.ltu.se", "Kvitto från bord " + this.order.get_table_number(), this.order.toReceipt());
+				EmailSender.SendEmail(order.get_email(), "Kvitto från bord " + this.order.get_table_number(), this.order.toReceipt());
 			}
 		}
 
